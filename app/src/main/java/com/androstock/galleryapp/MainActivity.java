@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-         galleryGridView = (GridView) findViewById(R.id.galleryGridView);
+        galleryGridView = (GridView) findViewById(R.id.galleryGridView);
 
         int iDisplayWidth = getResources().getDisplayMetrics().widthPixels ;
         Resources resources = getApplicationContext().getResources();

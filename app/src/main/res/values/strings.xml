@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Gallery App</string>
+    <string name="edit_Image_info">Editar dados da imagem</string>
+    <string name="keywords_to_find_image">Palavras chave para encontrar a imagem</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Salvar</string>
+    <string name="new_category">Cadatrar nova categoria</string>
+    <string name="set_category_name">Insira a nova categoria</string>
+    <string name="share">Compartilhar</string>
+    <string name="edit">Editar</string>
 </resources>

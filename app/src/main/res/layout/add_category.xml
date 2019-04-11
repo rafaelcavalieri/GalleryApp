@@ -10,72 +10,32 @@
     android:layout_marginBottom="15dp"
     android:layout_centerVertical="true"
     android:layout_centerHorizontal="true"
-    android:layout_centerInParent="true"
-    android:background="@drawable/dialog_gray_shape">
+    android:background="@drawable/dialog_black_shape">
 
     <TextView
         android:id="@+id/edit_image_data_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/edit_Image_info"
+        android:textColor="@color/white"
+        android:text="@string/set_category_name"
         android:textStyle="bold"
         />
 
     <LinearLayout
-        android:id="@+id/edit_image_data_key_words"
+        android:id="@+id/set_new_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/edt_edit_image_data_key_words"
+            android:id="@+id/category_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:gravity="center"
             android:maxLines="1"
-            />
-        <TextView
-            android:id="@+id/txt_edit_image_data_key_words"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center|top"
-            android:text="@string/keywords_to_find_image"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/edit_image_data_category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="5"
-        android:layout_marginRight="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp">
-
-        <Spinner
-            android:id="@+id/edt_edit_image_data_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="4"
-            android:layout_marginBottom="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginEnd="15dp"
-            />
-        <ImageButton
-            android:id="@+id/add_category"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginBottom="15dp"
-            android:background="@null"
-            android:src="@drawable/icons8_mais_24"
-            android:contentDescription="@string/new_category"/>
-
+            android:theme="@style/EditTextTheme"/>
     </LinearLayout>
 
     <LinearLayout
@@ -96,7 +56,7 @@
             android:text="@string/cancel"
             />
         <Button
-            android:id="@+id/edt_edit_image_data_button_save"
+            android:id="@+id/txt_edit_image_data_button_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

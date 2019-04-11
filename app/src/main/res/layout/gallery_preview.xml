@@ -19,13 +19,13 @@
                 android:id="@+id/share_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SHARE"/>
+                android:text="@string/share"/>
 
             <Button
                 android:id="@+id/edit_image_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="EDIT"/>
+                android:text="@string/edit"/>
 
         </LinearLayout>
 

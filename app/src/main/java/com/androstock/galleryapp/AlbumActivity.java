@@ -26,9 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-/**
- * Created by SHAJIB on 7/16/2017.
- */
+
 
 public class AlbumActivity extends AppCompatActivity {
     GridView galleryGridView;

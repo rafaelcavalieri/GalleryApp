@@ -1,5 +1,6 @@
 package com.androstock.galleryapp;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,21 +12,27 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class GalleryPreview extends AppCompatActivity {
 
-    ImageView GalleryPreviewImg;
-    String path;
-    Button shareButton;
-    Uri imageUri=null;
+    private ImageView GalleryPreviewImg;
+    private String path;
+    private Uri imageUri=null;
+    private Button shareButton;
+    private Button editImageData;
+    private EditText edtImageDataKeyWords;
+    private ImageButton addCategory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +47,24 @@ public class GalleryPreview extends AppCompatActivity {
                 shareImage(imageUri);
             }
         });
+        editImageData = (Button) findViewById(R.id.edit_image_data);
+        editImageData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editImageData();
+            }
+        });
+
+        addCategory = (ImageButton)findViewById(R.id.add_category);
+        /*addCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addCategoryScreen();
+            }
+        });*/
+
+        edtImageDataKeyWords= (EditText) findViewById(R.id.edt_edit_image_data_key_words);
+
 
         GalleryPreviewImg = (ImageView) findViewById(R.id.GalleryPreviewImg);
         if(intent.getAction()!=null && intent.getAction().equals(Intent.ACTION_VIEW) && intent.getType() !=null)
@@ -85,9 +110,39 @@ public class GalleryPreview extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+Environment.getExternalStorageDirectory().getPath()+"/temporary_file.jpg"));
         startActivity(Intent.createChooser(share, "Share Image"));
 
+    }
+
+    private void editImageData(){
+        final Dialog dialog = new Dialog(GalleryPreview.this);
+        dialog.setContentView(R.layout.edit_image_data);
+
+        Button cancelButton = (Button) dialog.findViewById(R.id.edt_edit_image_data_button_cancel);
+        Button saveButton = (Button) dialog.findViewById(R.id.edt_edit_image_data_button_save);
+        // if button is clicked, close the custom dialog
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast toast = Toast.makeText(GalleryPreview.this, "dados da imagem salvos",Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void addCategoryScreen(){
+        final Dialog dialog = new Dialog(GalleryPreview.this);
+        dialog.setContentView(R.layout.add_category);
     }
 
     private String getPath(Uri uri) {
