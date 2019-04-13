@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -31,7 +32,7 @@ public class GalleryPreview extends AppCompatActivity {
     private Button shareButton;
     private Button editImageData;
     private EditText edtImageDataKeyWords;
-    private ImageButton addCategory;
+    private ImageButton addCategoryBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +55,6 @@ public class GalleryPreview extends AppCompatActivity {
                 editImageData();
             }
         });
-
-        addCategory = (ImageButton)findViewById(R.id.add_category);
-        /*addCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addCategoryScreen();
-            }
-        });*/
 
         edtImageDataKeyWords= (EditText) findViewById(R.id.edt_edit_image_data_key_words);
 
@@ -117,7 +110,9 @@ public class GalleryPreview extends AppCompatActivity {
 
     private void editImageData(){
         final Dialog dialog = new Dialog(GalleryPreview.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.edit_image_data);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         Button cancelButton = (Button) dialog.findViewById(R.id.edt_edit_image_data_button_cancel);
         Button saveButton = (Button) dialog.findViewById(R.id.edt_edit_image_data_button_save);
@@ -137,12 +132,42 @@ public class GalleryPreview extends AppCompatActivity {
             }
         });
 
+        addCategoryBtn = (ImageButton)dialog.findViewById(R.id.add_category_btn);
+        addCategoryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addCategoryScreen();
+            }
+        });
+
         dialog.show();
     }
 
     private void addCategoryScreen(){
         final Dialog dialog = new Dialog(GalleryPreview.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.add_category);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        Button cancelButton = (Button) dialog.findViewById(R.id.add_category_button_cancel);
+        Button saveButton = (Button) dialog.findViewById(R.id.add_category_button_save);
+        // if button is clicked, close the custom dialog
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast toast = Toast.makeText(GalleryPreview.this, "categoria salva",Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
+
+        dialog.show();
     }
 
     private String getPath(Uri uri) {
