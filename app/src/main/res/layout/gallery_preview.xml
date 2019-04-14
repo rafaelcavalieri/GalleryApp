@@ -1,39 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black">
 
     <RelativeLayout
-        android:id="@+id/relative_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/share_image"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:visibility="visible"
+            android:layout_toStartOf="@id/edit_image_data"
+            android:layout_toLeftOf="@id/edit_image_data"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_share_white_24dp"/>
 
-            <Button
-                android:id="@+id/share_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/share"/>
+        <ImageButton
+            android:id="@+id/edit_image_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:visibility="visible"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_edit_white_24dp"/>
 
-            <Button
-                android:id="@+id/edit_image_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/edit"/>
-
-        </LinearLayout>
 
         <ImageView
             android:id="@+id/GalleryPreviewImg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:src="@drawable/blank"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_image_data"
+            android:src="@drawable/blank">
+        </ImageView>
     </RelativeLayout>
 </LinearLayout>

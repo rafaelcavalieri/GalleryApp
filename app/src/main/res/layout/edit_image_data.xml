@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,7 +12,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:gravity="center"
+        android:textSize="14sp"
         android:text="@string/edit_Image_info"
         android:textStyle="bold"
         />
@@ -26,6 +28,7 @@
             android:id="@+id/edt_edit_image_data_key_words"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="14sp"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
@@ -40,6 +43,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
+            android:textColor="@color/black"
             android:gravity="center|top"
             android:text="@string/keywords_to_find_image"/>
 
@@ -69,11 +73,11 @@
         <ImageButton
             android:id="@+id/add_category_btn"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginBottom="15dp"
             android:background="@null"
-            android:src="@drawable/icons8_mais_24"
+            app:srcCompat="@drawable/ic_add_circle_black_24dp"
             android:contentDescription="@string/new_category"/>
 
     </LinearLayout>
@@ -82,18 +86,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_margin="8dp"
         android:weightSum="2">
 
         <Button
             android:id="@+id/edt_edit_image_data_button_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginLeft="15dp"
             android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            android:text="@string/cancel"
-            />
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:paddingRight="10dp"
+            android:paddingEnd="10dp"
+            android:gravity="center"
+            android:background="@drawable/button_white_shape_left"
+            android:drawableRight="@drawable/ic_cancel_black_24dp"
+            android:drawableEnd="@drawable/ic_cancel_black_24dp"
+            android:text="@string/cancel" />
+
         <Button
             android:id="@+id/edt_edit_image_data_button_save"
             android:layout_width="wrap_content"
@@ -101,7 +113,14 @@
             android:gravity="center"
             android:layout_marginRight="15dp"
             android:layout_marginEnd="15dp"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:paddingRight="10dp"
+            android:paddingEnd="10dp"
             android:layout_weight="1"
+            android:background="@drawable/button_white_shape_right"
+            android:drawableLeft="@drawable/ic_save_black_24dp"
+            android:drawableStart="@drawable/ic_save_black_24dp"
             android:text="@string/save"/>
     </LinearLayout>
 </LinearLayout>

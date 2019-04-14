@@ -23,7 +23,7 @@
         android:verticalSpacing="5dp"
         android:gravity="center"
         android:stretchMode="columnWidth"
-        android:background="#ffffff">
+        android:background="@color/colorBackgroundDialog">
     </GridView>
 
 </LinearLayout>

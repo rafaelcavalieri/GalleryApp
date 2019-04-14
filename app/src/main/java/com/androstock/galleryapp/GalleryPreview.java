@@ -29,8 +29,8 @@ public class GalleryPreview extends AppCompatActivity {
     private ImageView GalleryPreviewImg;
     private String path;
     private Uri imageUri=null;
-    private Button shareButton;
-    private Button editImageData;
+    private ImageButton shareButton;
+    private ImageButton editImageData;
     private EditText edtImageDataKeyWords;
     private ImageButton addCategoryBtn;
 
@@ -41,14 +41,14 @@ public class GalleryPreview extends AppCompatActivity {
         setContentView(R.layout.gallery_preview);
         Intent intent = getIntent();
         imageUri=null;
-        shareButton = (Button) findViewById(R.id.share_image);
+        shareButton = (ImageButton) findViewById(R.id.share_image);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 shareImage(imageUri);
             }
         });
-        editImageData = (Button) findViewById(R.id.edit_image_data);
+        editImageData = (ImageButton) findViewById(R.id.edit_image_data);
         editImageData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,6 +129,8 @@ public class GalleryPreview extends AppCompatActivity {
             public void onClick(View v) {
                 Toast toast = Toast.makeText(GalleryPreview.this, "dados da imagem salvos",Toast.LENGTH_LONG);
                 toast.show();
+
+                dialog.dismiss();
             }
         });
 
@@ -164,6 +166,8 @@ public class GalleryPreview extends AppCompatActivity {
             public void onClick(View v) {
                 Toast toast = Toast.makeText(GalleryPreview.this, "categoria salva",Toast.LENGTH_LONG);
                 toast.show();
+
+                dialog.dismiss();
             }
         });
 
