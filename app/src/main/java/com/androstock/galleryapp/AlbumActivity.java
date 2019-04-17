@@ -61,27 +61,21 @@ public class AlbumActivity extends AppCompatActivity {
         album_name = intent.getStringExtra("name");
         setTitle(album_name);
 
-
         galleryGridView = (GridView) findViewById(R.id.galleryGridView);
         int iDisplayWidth = getResources().getDisplayMetrics().widthPixels ;
         Resources resources = getApplicationContext().getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float dp = iDisplayWidth / (metrics.densityDpi / 160f);
 
-        if(dp < 360)
-        {
+        if(dp < 360) {
             dp = (dp - 17) / 2;
             float px = Function.convertDpToPixel(dp, getApplicationContext());
             galleryGridView.setColumnWidth(Math.round(px));
         }
 
-
         loadAlbumTask = new LoadAlbumImages();
         loadAlbumTask.execute();
-
-
     }
-
 
     class LoadAlbumImages extends AsyncTask<String, Void, String> {
         @Override
@@ -135,8 +129,6 @@ public class AlbumActivity extends AppCompatActivity {
     }
 }
 
-
-
 class SingleAlbumAdapter extends BaseAdapter {
     private Activity activity;
     private ArrayList<HashMap< String, String >> data;
@@ -176,13 +168,10 @@ class SingleAlbumAdapter extends BaseAdapter {
             Glide.with(activity)
                     .load(new File(song.get(Function.KEY_PATH))) // Uri of the picture
                     .into(holder.galleryImage);
-
-
         } catch (Exception e) {}
         return convertView;
     }
 }
-
 
 class SingleAlbumViewHolder {
     ImageView galleryImage;
