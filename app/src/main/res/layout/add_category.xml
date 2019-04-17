@@ -39,6 +39,7 @@
             android:layout_marginStart="5dp"
             android:textColor="@color/white"
             android:gravity="center"
+            android:hint="@string/categories"
             android:maxLines="1"
             android:theme="@style/EditTextSecondaryTheme"/>
     </LinearLayout>

@@ -8,4 +8,8 @@
     <string name="set_category_name">Insira a nova categoria</string>
     <string name="share">Compartilhar</string>
     <string name="edit">Editar</string>
+    <string name="keywords_hint">meme, gato, postagem</string>
+    <string name="categories">Novela, Filme, Anime, Viagem</string>
+    <string name="search_image_edt">Digite separado por vírgulas palavras chaves e/ou categoria</string>
+    <string name="category_hint">Categoria</string>
 </resources>

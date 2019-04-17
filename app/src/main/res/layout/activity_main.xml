@@ -2,13 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <EditText
+        android:id="@+id/edt_search_images"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Buscar"
-        android:visibility="gone"/>
+        android:hint="@string/search_image_edt"
+        android:drawableRight="@drawable/ic_search_black_24dp"
+        android:drawableEnd="@drawable/ic_search_black_24dp"/>
 
     <GridView
         android:id="@+id/galleryGridView"

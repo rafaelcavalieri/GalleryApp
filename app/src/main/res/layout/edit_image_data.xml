@@ -35,6 +35,7 @@
             android:layout_marginStart="5dp"
             android:gravity="center"
             android:maxLines="1"
+            android:hint="@string/keywords_hint"
             android:theme="@style/EditTextTheme"/>
         <TextView
             android:layout_width="match_parent"
