@@ -1,4 +1,4 @@
-package com.androstock.quickgalleryorg;
+package com.racavalieri.quickgalleryorg;
 
 import android.Manifest;
 import android.app.Activity;
@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androstock.galleryapp.R;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
@@ -62,9 +61,6 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_PERMISSION_KEY);
         }
     }
-
-
-
 
     class LoadAlbum extends AsyncTask<String, Void, String> {
         @Override

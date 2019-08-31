@@ -1,4 +1,4 @@
-package com.androstock.quickgalleryorg.Database;
+package com.racavalieri.quickgalleryorg.Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
-import com.androstock.quickgalleryorg.Configurations;
+import com.racavalieri.quickgalleryorg.Configurations;
 
 
 public class Database extends SQLiteOpenHelper {

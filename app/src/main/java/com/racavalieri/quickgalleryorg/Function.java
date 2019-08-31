@@ -1,4 +1,4 @@
-package com.androstock.quickgalleryorg;
+package com.racavalieri.quickgalleryorg;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

@@ -1,4 +1,4 @@
-package com.androstock.quickgalleryorg;
+package com.racavalieri.quickgalleryorg;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,13 +20,13 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.androstock.galleryapp.R;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+
 
 public class AlbumActivity extends AppCompatActivity {
     GridView galleryGridView;
@@ -67,7 +67,7 @@ public class AlbumActivity extends AppCompatActivity {
 
         if(dp < 360) {
             dp = (dp - 17) / 2;
-            float px = Function.convertDpToPixel(dp, getApplicationContext());
+            float px = com.racavalieri.quickgalleryorg.Function.convertDpToPixel(dp, getApplicationContext());
             galleryGridView.setColumnWidth(Math.round(px));
         }
 
@@ -103,10 +103,10 @@ public class AlbumActivity extends AppCompatActivity {
                 album = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
                 timestamp = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_MODIFIED));
 
-                imageList.add(Function.mappingInbox(album, path, timestamp, Function.converToTime(timestamp), null));
+                imageList.add(com.racavalieri.quickgalleryorg.Function.mappingInbox(album, path, timestamp, com.racavalieri.quickgalleryorg.Function.converToTime(timestamp), null));
             }
             cursor.close();
-            Collections.sort(imageList, new MapComparator(Function.KEY_TIMESTAMP, "dsc")); // Arranging photo album by timestamp decending
+            Collections.sort(imageList, new com.racavalieri.quickgalleryorg.MapComparator(Function.KEY_TIMESTAMP, "dsc")); // Arranging photo album by timestamp decending
             return xml;
         }
 

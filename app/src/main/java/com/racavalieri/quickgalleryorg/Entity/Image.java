@@ -1,4 +1,4 @@
-package com.androstock.quickgalleryorg.Entity;
+package com.racavalieri.quickgalleryorg.Entity;
 
 public class Image{
 

@@ -1,4 +1,4 @@
-package com.androstock.quickgalleryorg.Database;
+package com.racavalieri.quickgalleryorg.Database;
 
 public class DAO {
 }

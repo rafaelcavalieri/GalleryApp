@@ -1,4 +1,4 @@
-package com.androstock.quickgalleryorg;
+package com.racavalieri.quickgalleryorg;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -18,9 +18,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.androstock.quickgalleryorg.Entity.Image;
-import com.androstock.galleryapp.R;
 import com.bumptech.glide.Glide;
+import com.racavalieri.quickgalleryorg.Entity.Image;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -36,7 +35,6 @@ public class GalleryPreview extends AppCompatActivity {
     private ImageButton shareButton;
     private ImageButton editImageData;
     private EditText edtImageDataKeyWords;
-    private ImageButton addCategoryBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,18 +143,10 @@ public class GalleryPreview extends AppCompatActivity {
             }
         });
 
-        addCategoryBtn = (ImageButton)dialog.findViewById(R.id.add_category_btn);
-        addCategoryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addCategoryScreen();
-            }
-        });
-
         dialog.show();
     }
 
-    private void addCategoryScreen(){
+    /*private void addCategoryScreen(){
         final Dialog dialog = new Dialog(GalleryPreview.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.add_category);
@@ -183,7 +173,7 @@ public class GalleryPreview extends AppCompatActivity {
         });
 
         dialog.show();
-    }
+    }*/
 
     private String getPath(Uri uri) {
 

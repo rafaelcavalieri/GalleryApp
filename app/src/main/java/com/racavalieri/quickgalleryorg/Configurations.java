@@ -1,4 +1,4 @@
-package com.androstock.quickgalleryorg;
+package com.racavalieri.quickgalleryorg;
 
 public class Configurations {
 
