@@ -1,4 +1,4 @@
-package com.androstock.galleryapp.Database;
+package com.androstock.quickgalleryorg.Database;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -6,8 +6,8 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.androstock.galleryapp.Entity.Category;
-import com.androstock.galleryapp.Entity.Image;
+import com.androstock.quickgalleryorg.Entity.Category;
+import com.androstock.quickgalleryorg.Entity.Image;
 
 import java.util.List;
 

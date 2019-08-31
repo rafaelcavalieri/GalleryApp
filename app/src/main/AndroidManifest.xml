@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity android:name="com.androstock.quickgalleryorg.MainActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,10 +22,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AlbumActivity"
+        <activity android:name="com.androstock.quickgalleryorg.AlbumActivity"
             android:configChanges="orientation|screenSize"/>
 
-        <activity android:name=".GalleryPreview"
+        <activity android:name="com.androstock.quickgalleryorg.GalleryPreview"
             android:configChanges="orientation|screenSize">
             <intent-filter android:scheme="http"
                 tools:ignore="AppLinkUrlError">

@@ -1,4 +1,4 @@
-package com.androstock.galleryapp;
+package com.androstock.quickgalleryorg;
 
 import android.Manifest;
 import android.app.Activity;
@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androstock.galleryapp.R;
 import com.bumptech.glide.Glide;
 
 import java.io.File;

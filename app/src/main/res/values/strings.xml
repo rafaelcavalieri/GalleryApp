@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Gallery App</string>
+    <string name="app_name">Quick Gallery Org</string>
     <string name="edit_Image_info">Editar dados da imagem</string>
     <string name="keywords_to_find_image">Palavras chave para encontrar a imagem</string>
     <string name="cancel">Cancelar</string>

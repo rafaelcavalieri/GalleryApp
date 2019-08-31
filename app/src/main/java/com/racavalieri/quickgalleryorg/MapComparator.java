@@ -1,4 +1,4 @@
-package com.androstock.galleryapp;
+package com.androstock.quickgalleryorg;
 
 /**
  * Created by SHAJIB on 7/16/2017.

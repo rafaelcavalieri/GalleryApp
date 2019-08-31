@@ -1,4 +1,4 @@
-package com.androstock.galleryapp;
+package com.androstock.quickgalleryorg;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -18,11 +18,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.androstock.quickgalleryorg.Entity.Image;
+import com.androstock.galleryapp.R;
 import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+
+
 
 public class GalleryPreview extends AppCompatActivity {
 
@@ -52,7 +56,11 @@ public class GalleryPreview extends AppCompatActivity {
         editImageData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editImageData();
+                Image i = new Image();
+                i.setKeywords("Teste");
+                i.setPath(imageUri.getPath());
+                i.setLastModified("");
+                editImageData(i);
             }
         });
 
@@ -108,7 +116,7 @@ public class GalleryPreview extends AppCompatActivity {
 
     }
 
-    private void editImageData(){
+    private void editImageData(final Image i){
         final Dialog dialog = new Dialog(GalleryPreview.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.edit_image_data);
@@ -129,6 +137,9 @@ public class GalleryPreview extends AppCompatActivity {
             public void onClick(View v) {
                 Toast toast = Toast.makeText(GalleryPreview.this, "dados da imagem salvos",Toast.LENGTH_LONG);
                 toast.show();
+
+                //db.insertImageData(i, getApplicationContext());
+
 
                 dialog.dismiss();
             }
