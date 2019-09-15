@@ -26,35 +26,26 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        /* GET DATA */
         db.execSQL("DROP TABLE IF EXISTS IMAGE");
-        db.execSQL("DROP TABLE IF EXISTS CATEGORY");
-
         onCreate(db);
     }
 
 
     @Override
     public void onCreate(SQLiteDatabase db) throws SQLiteException {
-
         String sqlQuery = "";
-
         if(db.isOpen()){
             try {
                 sqlQuery = "CREATE TABLE IF NOT EXISTS `IMAGE` (" +
                         "UID integer primary key autoincrement" +
                         ",KEYWORDS text" +
-                        ",ALBUM text" +
+                        ",PATH text" +
                         ",LASTMODIFIED text" +
                         ",LATITUDE text" +
                         ",LONGITUDE text" +
                         ");";
                 db.execSQL(sqlQuery);
-
-                Toast.makeText(DbContext,"Banco criado com sucesso",Toast.LENGTH_LONG).show();
             } catch(Exception e) {
-                Toast.makeText(DbContext,"Falha ao criar banco",Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
         }

@@ -1,6 +1,7 @@
 package com.racavalieri.quickgalleryorg;
 
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -19,12 +20,17 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.racavalieri.quickgalleryorg.Database.DAO;
 import com.racavalieri.quickgalleryorg.Entity.Image;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class GalleryPreview extends AppCompatActivity {
@@ -35,6 +41,7 @@ public class GalleryPreview extends AppCompatActivity {
     private ImageButton shareButton;
     private ImageButton editImageData;
     private EditText edtImageDataKeyWords;
+    private static DAO dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,7 @@ public class GalleryPreview extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.gallery_preview);
         Intent intent = getIntent();
+        dao = new DAO(getApplicationContext());
         imageUri=null;
         shareButton = (ImageButton) findViewById(R.id.share_image);
         shareButton.setOnClickListener(new View.OnClickListener() {
@@ -55,15 +63,10 @@ public class GalleryPreview extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Image i = new Image();
-                i.setKeywords("Teste");
                 i.setPath(imageUri.getPath());
-                i.setLastModified("");
                 editImageData(i);
             }
         });
-
-        edtImageDataKeyWords= (EditText) findViewById(R.id.edt_edit_image_data_key_words);
-
 
         GalleryPreviewImg = (ImageView) findViewById(R.id.GalleryPreviewImg);
         if(intent.getAction()!=null && intent.getAction().equals(Intent.ACTION_VIEW) && intent.getType() !=null)
@@ -91,8 +94,6 @@ public class GalleryPreview extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
-
     }
 
     private void shareImage(Uri imageUri){
@@ -118,11 +119,14 @@ public class GalleryPreview extends AppCompatActivity {
         final Dialog dialog = new Dialog(GalleryPreview.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.edit_image_data);
+
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        Button cancelButton = (Button) dialog.findViewById(R.id.edt_edit_image_data_button_cancel);
-        Button saveButton = (Button) dialog.findViewById(R.id.edt_edit_image_data_button_save);
-        // if button is clicked, close the custom dialog
+        edtImageDataKeyWords= dialog.findViewById(R.id.edt_edit_image_data_key_words);
+
+        Button cancelButton = dialog.findViewById(R.id.edt_edit_image_data_button_cancel);
+        Button saveButton = dialog.findViewById(R.id.edt_edit_image_data_button_save);
+
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,13 +137,21 @@ public class GalleryPreview extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(GalleryPreview.this, "dados da imagem salvos",Toast.LENGTH_LONG);
-                toast.show();
+                try{
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                    Date now = Calendar.getInstance().getTime();
+                    String nowAsString = df.format(now);
 
-                //db.insertImageData(i, getApplicationContext());
-
-
-                dialog.dismiss();
+                    ContentValues values = new ContentValues();
+                    values.put("KEYWORDS", edtImageDataKeyWords.getText().toString());
+                    values.put("PATH", i.getPath());
+                    values.put("LASTMODIFIED", nowAsString);
+                    dao.insert("IMAGE", values);
+                    Toast.makeText(GalleryPreview.this, "dados salvos",Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 

@@ -8,8 +8,6 @@ public class Image{
 
     private String keywords;
 
-    private String album;
-
     private String lastModified;
 
     private String latitute;
@@ -30,14 +28,6 @@ public class Image{
 
     public void setKeywords(String keywords) {
         this.keywords = keywords;
-    }
-
-    public String getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(String album) {
-        this.album = album;
     }
 
     public String getLastModified() {
