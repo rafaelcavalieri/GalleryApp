@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -33,28 +35,12 @@ public class AlbumActivity extends AppCompatActivity {
     ArrayList<HashMap<String, String>> imageList = new ArrayList<HashMap<String, String>>();
     String album_name = "";
     LoadAlbumImages loadAlbumTask;
-    private EditText searchImages;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
-        searchImages = findViewById(R.id.edt_search_images);
-
-        /*searchImages.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if ((actionId & EditorInfo.IME_MASK_ACTION) != 0) {
-                    //realizar busca
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-        });*/
-
         Intent intent = getIntent();
         album_name = intent.getStringExtra("name");
         setTitle(album_name);

@@ -154,7 +154,6 @@ public class GalleryPreview extends AppCompatActivity {
                 }
             }
         });
-
         dialog.show();
     }
 
