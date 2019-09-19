@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.racavalieri.quickgalleryorg.Database.DAO;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ import java.util.Collections;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static DAO dao;
 
     static final int REQUEST_PERMISSION_KEY = 1;
     LoadAlbum loadAlbumTask;
@@ -45,14 +48,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        EditText searchImages = findViewById(R.id.edt_search_images );
+        dao = new DAO(getApplicationContext());
+
+        final EditText searchImages = findViewById(R.id.edt_search_images );
 
         searchImages.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE
                         || event.getAction() == KeyEvent.ACTION_DOWN) {
-                    Toast.makeText(MainActivity.this, "HERE", Toast.LENGTH_SHORT).show();
+
+                    Cursor selectedImages = dao.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
+                            , "IMAGE", "KEYWORDS LIKE '%"+ searchImages.getText().toString()+"%'");
+
+                    if(selectedImages==null || !selectedImages.moveToNext())
+                        Toast.makeText(MainActivity.this, "EMPTY SELECTION", Toast.LENGTH_SHORT).show();
+
+                    else
+                        Toast.makeText(MainActivity.this, "FOUND SHIT", Toast.LENGTH_SHORT).show();
+
                     return true;
                 }
                 else {

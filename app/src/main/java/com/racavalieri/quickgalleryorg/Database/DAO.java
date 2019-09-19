@@ -89,16 +89,14 @@ public class DAO {
     }
 
     /**
-     * Executa uma Query de SELECT com clausula WHERE para retornar uma tupla no banco de dados (Menos Complexo)
-     *
-     * @param oQue
-     * @param nomeDaTabela
+     * @param fields
+     * @param table
      * @param where
      * @return Cursor
      */
-    public static Cursor select(String oQue, String nomeDaTabela, String where){
+    public static Cursor select(String fields, String table, String where){
         SQLiteDatabase db = database.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT " + oQue + " FROM " + nomeDaTabela + " WHERE " + where + ";", null);
+        Cursor cursor = db.rawQuery("SELECT " + fields + " FROM " + table + " WHERE " + where + ";", null);
         return cursor;
     }
 
