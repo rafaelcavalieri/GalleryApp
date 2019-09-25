@@ -1,12 +1,11 @@
-package com.racavalieri.quickgalleryorg.Database;
+package com.racavalieri.gallerysearch.Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
-import com.racavalieri.quickgalleryorg.Configurations;
+import com.racavalieri.gallerysearch.Configurations;
 
 
 public class Database extends SQLiteOpenHelper {

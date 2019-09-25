@@ -1,4 +1,4 @@
-package com.racavalieri.quickgalleryorg;
+package com.racavalieri.gallerysearch;
 
 import android.Manifest;
 import android.app.Activity;
@@ -28,7 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.racavalieri.quickgalleryorg.Database.DAO;
+import com.racavalieri.gallerysearch.Database.DAO;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_PERMISSION_KEY);
         }
     }
+
+
 
     class LoadAlbum extends AsyncTask<String, Void, String> {
         @Override

@@ -1,4 +1,4 @@
-package com.racavalieri.quickgalleryorg;
+package com.racavalieri.gallerysearch;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -15,10 +15,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-
-/**
- * Created by SHAJIB on 7/16/2017.
- */
 
 public class Function {
 

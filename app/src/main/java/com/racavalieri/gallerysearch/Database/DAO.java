@@ -1,4 +1,4 @@
-package com.racavalieri.quickgalleryorg.Database;
+package com.racavalieri.gallerysearch.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
-import com.racavalieri.quickgalleryorg.Configurations;
+import com.racavalieri.gallerysearch.Configurations;
 
 import java.util.ArrayList;
 import java.util.HashMap;

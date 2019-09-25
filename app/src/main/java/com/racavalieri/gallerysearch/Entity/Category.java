@@ -1,4 +1,4 @@
-package com.racavalieri.quickgalleryorg.Entity;
+package com.racavalieri.gallerysearch.Entity;
 
 public class Category {
 

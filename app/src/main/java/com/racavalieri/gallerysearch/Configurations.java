@@ -1,4 +1,4 @@
-package com.racavalieri.quickgalleryorg;
+package com.racavalieri.gallerysearch;
 
 public class Configurations {
 

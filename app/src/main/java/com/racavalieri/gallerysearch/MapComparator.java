@@ -1,15 +1,7 @@
-package com.racavalieri.quickgalleryorg;
-
-/**
- * Created by SHAJIB on 7/16/2017.
- */
+package com.racavalieri.gallerysearch;
 
 import java.util.Comparator;
 import java.util.HashMap;
-
-/**
- * Created by SHAJIB on 7/12/2017.
- */
 
 class MapComparator implements Comparator<HashMap<String, String>>
 {
@@ -25,7 +17,6 @@ class MapComparator implements Comparator<HashMap<String, String>>
     public int compare(HashMap<String, String> first,
                        HashMap<String, String> second)
     {
-        // TODO: Null checking, both for maps and values
         String firstValue = first.get(key);
         String secondValue = second.get(key);
         if(this.order.toLowerCase().contentEquals("asc"))

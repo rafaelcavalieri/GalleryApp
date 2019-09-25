@@ -1,4 +1,4 @@
-package com.racavalieri.quickgalleryorg;
+package com.racavalieri.gallerysearch;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,16 +11,13 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -53,7 +50,7 @@ public class AlbumActivity extends AppCompatActivity {
 
         if(dp < 360) {
             dp = (dp - 17) / 2;
-            float px = com.racavalieri.quickgalleryorg.Function.convertDpToPixel(dp, getApplicationContext());
+            float px = com.racavalieri.gallerysearch.Function.convertDpToPixel(dp, getApplicationContext());
             galleryGridView.setColumnWidth(Math.round(px));
         }
 
@@ -89,10 +86,10 @@ public class AlbumActivity extends AppCompatActivity {
                 album = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
                 timestamp = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_MODIFIED));
 
-                imageList.add(com.racavalieri.quickgalleryorg.Function.mappingInbox(album, path, timestamp, com.racavalieri.quickgalleryorg.Function.converToTime(timestamp), null));
+                imageList.add(com.racavalieri.gallerysearch.Function.mappingInbox(album, path, timestamp, com.racavalieri.gallerysearch.Function.converToTime(timestamp), null));
             }
             cursor.close();
-            Collections.sort(imageList, new com.racavalieri.quickgalleryorg.MapComparator(Function.KEY_TIMESTAMP, "dsc")); // Arranging photo album by timestamp decending
+            Collections.sort(imageList, new com.racavalieri.gallerysearch.MapComparator(Function.KEY_TIMESTAMP, "dsc")); // Arranging photo album by timestamp decending
             return xml;
         }
 

@@ -1,4 +1,4 @@
-package com.racavalieri.quickgalleryorg.Database;
+package com.racavalieri.gallerysearch.Database;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -6,8 +6,8 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.racavalieri.quickgalleryorg.Entity.Category;
-import com.racavalieri.quickgalleryorg.Entity.Image;
+import com.racavalieri.gallerysearch.Entity.Category;
+import com.racavalieri.gallerysearch.Entity.Image;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.racavalieri.quickgalleryorg.Entity;
+package com.racavalieri.gallerysearch.Entity;
 
 public class Image{
 
@@ -10,7 +10,7 @@ public class Image{
 
     private String lastModified;
 
-    private String latitute;
+    private String latitude;
 
     private String longitude;
 
@@ -46,12 +46,12 @@ public class Image{
         this.uid = uid;
     }
 
-    public String getLatitute() {
-        return latitute;
+    public String getLatitude() {
+        return latitude;
     }
 
-    public void setLatitute(String latitute) {
-        this.latitute = latitute;
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
     public String getLongitude() {

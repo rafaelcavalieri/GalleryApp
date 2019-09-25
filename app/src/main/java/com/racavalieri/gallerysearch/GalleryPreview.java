@@ -1,4 +1,4 @@
-package com.racavalieri.quickgalleryorg;
+package com.racavalieri.gallerysearch;
 
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -20,8 +20,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.racavalieri.quickgalleryorg.Database.DAO;
-import com.racavalieri.quickgalleryorg.Entity.Image;
+import com.racavalieri.gallerysearch.Database.DAO;
+import com.racavalieri.gallerysearch.Entity.Image;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
