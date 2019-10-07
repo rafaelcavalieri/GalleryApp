@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     LoadAlbum loadAlbumTask;
     GridView galleryGridView;
     ArrayList<HashMap<String, String>> albumList = new ArrayList<HashMap<String, String>>();
+    EditText searchImages;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,23 +53,14 @@ public class MainActivity extends AppCompatActivity {
 
         dao = new DAO(getApplicationContext());
 
-        final EditText searchImages = findViewById(R.id.edt_search_images );
+        searchImages = findViewById(R.id.edt_search_images );
 
         searchImages.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE
                         || event.getAction() == KeyEvent.ACTION_DOWN) {
-
-                    Cursor selectedImages = dao.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
-                            , "IMAGE", "KEYWORDS LIKE '%"+ searchImages.getText().toString()+"%'");
-
-                    if(selectedImages==null || !selectedImages.moveToNext())
-                        Toast.makeText(MainActivity.this, "EMPTY SELECTION", Toast.LENGTH_SHORT).show();
-
-                    else
-                        Toast.makeText(MainActivity.this, "FOUND SHIT", Toast.LENGTH_SHORT).show();
-
+                    loadGalleryOrExecuteQuery();
                     return true;
                 }
                 else {
@@ -95,6 +89,51 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void loadGalleryOrExecuteQuery() {
+        final String query = searchImages.getText().toString();
+        if(TextUtils.isEmpty(query)) {
+            loadAlbumTask = new LoadAlbum();
+            loadAlbumTask.execute();
+        } else {
+            searchDatabase(query);
+        }
+    }
+
+    private void searchDatabase(String query) {
+        Cursor selectedImages = dao.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
+                , "IMAGE", "KEYWORDS LIKE '%"+ query+"%'");
+        if(selectedImages==null || !selectedImages.moveToNext()) {
+            Toast.makeText(MainActivity.this, "EMPTY SELECTION", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        displayCursor(selectedImages);
+    }
+
+    private void displayCursor(Cursor selectedImages) {
+        final ArrayList<HashMap<String, String>> searchList = convertCursor(selectedImages);
+        AlbumAdapter adapter = new AlbumAdapter(MainActivity.this, searchList);
+        galleryGridView.setAdapter(adapter);
+        galleryGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    final int position, long id) {
+                Intent intent = new Intent(MainActivity.this, GalleryPreview.class);
+                intent.putExtra("path", searchList.get(+position).get(Function.KEY_PATH));
+                startActivity(intent);
+            }
+        });
+    }
+
+    private ArrayList<HashMap<String, String>> convertCursor(Cursor selectedImages) {
+        ArrayList<HashMap<String, String>> searchList = new ArrayList<HashMap<String, String>>();
+
+        do {
+            final String path = selectedImages.getString(selectedImages.getColumnIndex("PATH"));
+            final String timestamp = selectedImages.getString(selectedImages.getColumnIndex("LASTMODIFIED"));
+            searchList.add(Function.mappingInbox("", path, timestamp, "", ""));
+        } while (selectedImages.moveToNext());
+
+        return searchList;
+    }
 
 
     class LoadAlbum extends AsyncTask<String, Void, String> {
@@ -185,8 +224,7 @@ public class MainActivity extends AppCompatActivity {
         if(!Function.hasPermissions(this, PERMISSIONS)){
             ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_PERMISSION_KEY);
         }else{
-            loadAlbumTask = new LoadAlbum();
-            loadAlbumTask.execute();
+            loadGalleryOrExecuteQuery();
         }
 
     }

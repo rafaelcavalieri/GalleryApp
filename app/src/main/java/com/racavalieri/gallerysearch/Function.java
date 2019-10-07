@@ -24,6 +24,7 @@ public class Function {
     static final String KEY_TIMESTAMP = "timestamp";
     static final String KEY_TIME = "date";
     static final String KEY_COUNT = "date";
+    static final String KEY_SELECTED = "selected";
 
 
     public static  boolean hasPermissions(Context context, String... permissions) {

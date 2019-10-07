@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -33,6 +34,7 @@ public class AlbumActivity extends AppCompatActivity {
     String album_name = "";
     LoadAlbumImages loadAlbumTask;
 
+    HashMap<String, HashMap< String, String >> selectedItems = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,17 +98,70 @@ public class AlbumActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String xml) {
 
-            SingleAlbumAdapter adapter = new SingleAlbumAdapter(AlbumActivity.this, imageList);
+            final SingleAlbumAdapter adapter = new SingleAlbumAdapter(AlbumActivity.this, imageList);
             galleryGridView.setAdapter(adapter);
             galleryGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         final int position, long id) {
-                    Intent intent = new Intent(AlbumActivity.this, GalleryPreview.class);
-                    intent.putExtra("path", imageList.get(+position).get(Function.KEY_PATH));
-                    startActivity(intent);
+                    onItemClicked(position, false);
+                }
+            });
+            galleryGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    onItemClicked(position, true);
+                    return true;
                 }
             });
         }
+    }
+
+    private void onItemClicked(int position, boolean isLongClick) {
+        if(selectedItems.size() == 0 && !isLongClick) {
+            Intent intent = new Intent(AlbumActivity.this, GalleryPreview.class);
+            intent.putExtra("path", imageList.get(+position).get(Function.KEY_PATH));
+            startActivity(intent);
+            return;
+        }
+
+        final HashMap<String, String> selectedItem = imageList.get(position);
+        String path = selectedItem.get(Function.KEY_PATH);
+
+        if(selectedItems.containsKey(path)) {
+            removeSelection(selectedItem);
+        } else {
+            addSelection(selectedItem);
+        }
+    }
+
+    private void removeSelection(HashMap<String, String> itemAtPosition) {
+        itemAtPosition.remove(Function.KEY_SELECTED);
+        selectedItems.remove(itemAtPosition.get(Function.KEY_PATH));
+        final SingleAlbumAdapter adapter = (SingleAlbumAdapter) galleryGridView.getAdapter();
+        adapter.notifyDataSetChanged();
+
+        if(selectedItems.size() == 0) {
+
+        }
+    }
+
+    private void addSelection(HashMap<String, String> itemAtPosition) {
+        itemAtPosition.put(Function.KEY_SELECTED, "");
+        selectedItems.put(itemAtPosition.get(Function.KEY_PATH), itemAtPosition);
+        final SingleAlbumAdapter adapter = (SingleAlbumAdapter) galleryGridView.getAdapter();
+        adapter.notifyDataSetChanged();
+
+
+    }
+
+    private ArrayList<String> getSelectedPaths() {
+        ArrayList<String> paths = new ArrayList<>();
+        for (HashMap<String, String> value : selectedItems.values()) {
+            final String path = value.get(Function.KEY_PATH);
+            paths.add(path);
+        }
+
+        return paths;
     }
 }
 
@@ -121,7 +176,7 @@ class SingleAlbumAdapter extends BaseAdapter {
         return data.size();
     }
     public Object getItem(int position) {
-        return position;
+        return data.get(position);
     }
     public long getItemId(int position) {
         return position;
@@ -135,6 +190,7 @@ class SingleAlbumAdapter extends BaseAdapter {
                     R.layout.single_album_row, parent, false);
 
             holder.galleryImage = (ImageView) convertView.findViewById(R.id.galleryImage);
+            holder.selectedIcon = convertView.findViewById(R.id.checkIcon);
 
             convertView.setTag(holder);
         } else {
@@ -144,6 +200,13 @@ class SingleAlbumAdapter extends BaseAdapter {
 
         HashMap < String, String > song = new HashMap < String, String > ();
         song = data.get(position);
+
+        if(song.get(Function.KEY_SELECTED) != null) {
+            holder.selectedIcon.setVisibility(View.VISIBLE);
+        } else {
+            holder.selectedIcon.setVisibility(View.GONE);
+        }
+
         try {
 
             Glide.with(activity)
@@ -156,4 +219,5 @@ class SingleAlbumAdapter extends BaseAdapter {
 
 class SingleAlbumViewHolder {
     ImageView galleryImage;
+    ImageView selectedIcon;
 }
