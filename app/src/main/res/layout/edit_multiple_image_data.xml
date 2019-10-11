@@ -1,76 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
     android:layout_centerHorizontal="true"
-    android:background="@drawable/dialog_black_shape">
+    android:layout_centerInParent="true"
+    android:background="@drawable/dialog_gray_shape">
 
     <TextView
-        android:id="@+id/edit_image_data_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
+        android:textColor="@color/black"
         android:gravity="center"
-        android:textColor="@color/white"
         android:textSize="14sp"
-        android:text="@string/set_category_name"
+        android:text="@string/edit_image_keywords"
         android:textStyle="bold"
         />
 
     <LinearLayout
-        android:id="@+id/set_new_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/category_name"
+            android:id="@+id/edt_edit_image_data_key_words"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center"
+            android:maxLines="1"
+            android:hint="@string/keywords_hint"
+            android:theme="@style/EditTextTheme"/>
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:hint="@string/categories"
-            android:maxLines="1"
-            android:theme="@style/EditTextSecondaryTheme"/>
+            android:textColor="@color/black"
+            android:gravity="center|top"
+            android:text="@string/replace_or_add_keywords"/>
+
     </LinearLayout>
 
+
+
     <LinearLayout
-        android:id="@+id/edit_image_data_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="8dp"
-        android:weightSum="2">
+        android:weightSum="3">
 
         <Button
-            android:id="@+id/add_category_button_cancel"
+            android:id="@+id/edt_edit_image_data_button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:paddingRight="10dp"
+            android:paddingEnd="10dp"
+            android:gravity="center"
+            android:background="@drawable/button_white_shape_left"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/edt_edit_image_data_button_replace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
             android:paddingLeft="10dp"
             android:paddingStart="10dp"
             android:paddingRight="10dp"
             android:paddingEnd="10dp"
             android:layout_weight="1"
-            android:drawableRight="@drawable/ic_cancel_black_24dp"
-            android:drawableEnd="@drawable/ic_cancel_black_24dp"
-            android:background="@drawable/button_white_shape_left"
-            android:text="@string/cancel"
-            />
+            android:background="@drawable/button_white_shape_middle"
+            android:text="@string/replace"/>
+
         <Button
-            android:id="@+id/add_category_button_save"
+            android:id="@+id/edt_edit_image_data_button_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -82,11 +100,6 @@
             android:paddingEnd="10dp"
             android:layout_weight="1"
             android:background="@drawable/button_white_shape_right"
-            android:drawableRight="@drawable/ic_save_black_24dp"
-            android:drawableEnd="@drawable/ic_save_black_24dp"
-            android:text="@string/save"/>
+            android:text="@string/add"/>
     </LinearLayout>
-
-
-
 </LinearLayout>

@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor selectedImages = dao.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
                 , "IMAGE", "KEYWORDS LIKE '%"+ query+"%'");
         if(selectedImages==null || !selectedImages.moveToNext()) {
-            Toast.makeText(MainActivity.this, "EMPTY SELECTION", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, getString(R.string.nothing_found), Toast.LENGTH_SHORT).show();
             return;
         }
         displayCursor(selectedImages);
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                     loadAlbumTask.execute();
                 } else
                 {
-                    Toast.makeText(MainActivity.this, "You must accept permissions.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.accept_permissions), Toast.LENGTH_LONG).show();
                 }
             }
         }

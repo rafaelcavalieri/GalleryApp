@@ -1,15 +1,19 @@
 <resources>
     <string name="app_name">Gallery Search</string>
-    <string name="edit_Image_info">Editar dados da imagem</string>
+    <string name="edit_image_keywords">Editar palavras chave da imagem</string>
     <string name="keywords_to_find_image">Palavras chave para encontrar a imagem</string>
+    <string name="replace_or_add_keywords">Deseja substituir ou adicionar palavaras chave?</string>
+    <string name="replace">Substituir</string>
+    <string name="add">Adicionar</string>
     <string name="cancel">Cancelar</string>
     <string name="save">Salvar</string>
-    <string name="new_category">Cadatrar nova categoria</string>
-    <string name="set_category_name">Insira a nova categoria</string>
-    <string name="share">Compartilhar</string>
     <string name="edit">Editar</string>
-    <string name="keywords_hint">meme, gato, postagem</string>
-    <string name="categories">Novela, Filme, Anime, Viagem</string>
-    <string name="search_image_edt">Digite separado por vírgulas palavras chaves e/ou categoria</string>
-    <string name="category_hint">Categoria</string>
+    <string name="keywords_hint">Ex: gato, meme, postagem</string>
+    <string name="search_image_edt">Digite separado por vírgulas</string>
+    <string name="share_image">Compartilhar Imagem</string>
+    <string name="data_saved">Dados salvos!</string>
+    <string name="accept_permissions">Você deve aceitar as permissões para o aplicativo funcionar corretamente!</string>
+    <string name="nothing_found">Nada encontrado</string>
+    <string name="confirmation_delete_image">Excluir imagem?</string>
+    <string name="confirmation_delete_multiple_images">Excluir imagens selecionadas?</string>
 </resources>

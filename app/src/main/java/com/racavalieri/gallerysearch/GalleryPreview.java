@@ -64,7 +64,7 @@ public class GalleryPreview extends AppCompatActivity {
             public void onClick(View view) {
                 Image i = new Image();
                 i.setPath(imageUri.getPath());
-                editImageData(i);
+                editImageKeywords(i);
             }
         });
 
@@ -111,11 +111,11 @@ public class GalleryPreview extends AppCompatActivity {
             e.printStackTrace();
         }
         share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+Environment.getExternalStorageDirectory().getPath()+"/temporary_file.jpg"));
-        startActivity(Intent.createChooser(share, "Share Image"));
+        startActivity(Intent.createChooser(share, getString(R.string.share_image)));
 
     }
 
-    private void editImageData(final Image i){
+    private void editImageKeywords(final Image i){
         final Dialog dialog = new Dialog(GalleryPreview.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.edit_image_data);
@@ -141,13 +141,20 @@ public class GalleryPreview extends AppCompatActivity {
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                     Date now = Calendar.getInstance().getTime();
                     String nowAsString = df.format(now);
+                    String[] argsToUpdate = new String[1];
+                    argsToUpdate[0] = i.getPath();
 
                     ContentValues values = new ContentValues();
                     values.put("KEYWORDS", edtImageDataKeyWords.getText().toString());
                     values.put("PATH", i.getPath());
                     values.put("LASTMODIFIED", nowAsString);
-                    dao.insert("IMAGE", values);
-                    Toast.makeText(GalleryPreview.this, "dados salvos",Toast.LENGTH_LONG).show();
+
+                    if(dao.exist(i.getPath(),"IMAGE","PATH", "PATH"))
+                        dao.update("IMAGE",values,"PATH",argsToUpdate);
+
+                    else
+                        dao.insert("IMAGE", values);
+                    Toast.makeText(GalleryPreview.this, getString(R.string.data_saved),Toast.LENGTH_LONG).show();
                     dialog.dismiss();
                 }catch (Exception e){
                     e.printStackTrace();
@@ -156,35 +163,6 @@ public class GalleryPreview extends AppCompatActivity {
         });
         dialog.show();
     }
-
-    /*private void addCategoryScreen(){
-        final Dialog dialog = new Dialog(GalleryPreview.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.add_category);
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-        Button cancelButton = (Button) dialog.findViewById(R.id.add_category_button_cancel);
-        Button saveButton = (Button) dialog.findViewById(R.id.add_category_button_save);
-        // if button is clicked, close the custom dialog
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast toast = Toast.makeText(GalleryPreview.this, "categoria salva",Toast.LENGTH_LONG);
-                toast.show();
-
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }*/
 
     private String getPath(Uri uri) {
 

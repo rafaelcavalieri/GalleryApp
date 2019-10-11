@@ -15,7 +15,7 @@
         android:textColor="@color/black"
         android:gravity="center"
         android:textSize="14sp"
-        android:text="@string/edit_Image_info"
+        android:text="@string/edit_image_keywords"
         android:textStyle="bold"
         />
 

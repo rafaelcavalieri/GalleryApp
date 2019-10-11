@@ -1,6 +1,8 @@
 package com.racavalieri.gallerysearch;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -12,20 +14,32 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.racavalieri.gallerysearch.Database.DAO;
+import com.racavalieri.gallerysearch.Entity.Image;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 
 public class AlbumActivity extends AppCompatActivity {
@@ -33,8 +47,83 @@ public class AlbumActivity extends AppCompatActivity {
     ArrayList<HashMap<String, String>> imageList = new ArrayList<HashMap<String, String>>();
     String album_name = "";
     LoadAlbumImages loadAlbumTask;
+    RelativeLayout topButtons;
+    private EditText edtImageDataKeyWords;
+    private static DAO dao;
 
     HashMap<String, HashMap< String, String >> selectedItems = new HashMap<>();
+
+    private void editMultipleImagesKeywords(){
+        final Dialog dialog = new Dialog(AlbumActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.edit_multiple_image_data);
+
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        edtImageDataKeyWords= dialog.findViewById(R.id.edt_edit_image_data_key_words);
+
+        Button cancelButton = dialog.findViewById(R.id.edt_edit_image_data_button_cancel);
+        Button replaceButton = dialog.findViewById(R.id.edt_edit_image_data_button_replace);
+        Button addButton = dialog.findViewById(R.id.edt_edit_image_data_button_add);
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        replaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<String> imagesPaths = getSelectedPaths();
+
+                for(String path : imagesPaths){
+                    try{
+                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        Date now = Calendar.getInstance().getTime();
+                        String nowAsString = df.format(now);
+                        String[] argsToUpdate = new String[1];
+                        argsToUpdate[0] = path;
+
+                        ContentValues values = new ContentValues();
+                        values.put("KEYWORDS", edtImageDataKeyWords.getText().toString());
+                        values.put("PATH", path);
+                        values.put("LASTMODIFIED", nowAsString);
+
+                        if(dao.exist(path,"IMAGE","PATH", "PATH"))
+                            dao.update("IMAGE",values,"PATH",argsToUpdate);
+
+                        else
+                            dao.insert("IMAGE", values);
+                        Toast.makeText(AlbumActivity.this, getString(R.string.data_saved),Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        dialog.show();
+    }
+
+    private void shareMultipleImages(){
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+        intent.putExtra(Intent.EXTRA_SUBJECT, "");
+        intent.setType("image/jpeg");
+
+        ArrayList<Uri> files = new ArrayList<Uri>();
+
+        for(String path : getSelectedPaths() ) {
+            File file = new File(path);
+            Uri uri = Uri.fromFile(file);
+            files.add(uri);
+        }
+
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +132,21 @@ public class AlbumActivity extends AppCompatActivity {
         Intent intent = getIntent();
         album_name = intent.getStringExtra("name");
         setTitle(album_name);
+        dao = new DAO(getApplicationContext());
+
+        topButtons = findViewById(R.id.topButtons);
+
+        ImageButton shareMultiple = findViewById(R.id.share_multiple_images);
+        shareMultiple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareMultipleImages();
+            }
+        });
+
+        ImageButton editMultiple = findViewById(R.id.edit_multiple_image_data);
+
+        topButtons.setVisibility(View.GONE);
 
         galleryGridView = (GridView) findViewById(R.id.galleryGridView);
         int iDisplayWidth = getResources().getDisplayMetrics().widthPixels ;
@@ -141,7 +245,7 @@ public class AlbumActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
         if(selectedItems.size() == 0) {
-
+            topButtons.setVisibility(View.GONE);
         }
     }
 
@@ -151,7 +255,7 @@ public class AlbumActivity extends AppCompatActivity {
         final SingleAlbumAdapter adapter = (SingleAlbumAdapter) galleryGridView.getAdapter();
         adapter.notifyDataSetChanged();
 
-
+        topButtons.setVisibility(View.VISIBLE);
     }
 
     private ArrayList<String> getSelectedPaths() {

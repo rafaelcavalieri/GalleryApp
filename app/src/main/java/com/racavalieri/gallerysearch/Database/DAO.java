@@ -3,12 +3,15 @@ package com.racavalieri.gallerysearch.Database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.racavalieri.gallerysearch.Configurations;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,6 +89,28 @@ public class DAO {
         SQLiteDatabase db = database.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT " + oQue + " FROM " + nomeDaTabela + ";", null);
         return cursor;
+    }
+
+    public static long update(String table, ContentValues values, String whereClause, String[] whereArgs){
+        SQLiteDatabase db = database.getWritableDatabase();
+        long rowsInserted = -1;
+        try {
+            rowsInserted = db.update(table,values,whereClause,whereArgs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        db.close(); // Closing database connection
+
+        return rowsInserted;
+    }
+
+    public static boolean exist(String fields, String table, String Column, String where){
+        SQLiteDatabase db = database.getReadableDatabase();
+
+        if(DatabaseUtils.queryNumEntries(db, table, Column+"=?", new String[] {fields})>0)
+            return true;
+        else
+            return false;
     }
 
     /**
