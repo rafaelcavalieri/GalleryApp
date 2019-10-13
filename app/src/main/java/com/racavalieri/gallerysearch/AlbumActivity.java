@@ -83,6 +83,37 @@ public class AlbumActivity extends AppCompatActivity {
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                         Date now = Calendar.getInstance().getTime();
                         String nowAsString = df.format(now);
+                        String[] argsToUpdate = { "" + path };
+
+                        ContentValues values = new ContentValues();
+                        values.put("KEYWORDS", edtImageDataKeyWords.getText().toString());
+                        values.put("PATH", path);
+                        values.put("LASTMODIFIED", nowAsString);
+
+                        if(dao.exist(path,"IMAGE","PATH", "PATH"))
+                            dao.update("IMAGE",values,"PATH = ?",argsToUpdate);
+
+                        else
+                            dao.insert("IMAGE", values);
+                        Toast.makeText(AlbumActivity.this, getString(R.string.data_saved),Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        /*addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<String> imagesPaths = getSelectedPaths();
+
+                for(String path : imagesPaths){
+                    try{
+                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        Date now = Calendar.getInstance().getTime();
+                        String nowAsString = df.format(now);
                         String[] argsToUpdate = new String[1];
                         argsToUpdate[0] = path;
 
@@ -103,7 +134,9 @@ public class AlbumActivity extends AppCompatActivity {
                     }
                 }
             }
-        });
+        });*/
+
+
         dialog.show();
     }
 
@@ -145,6 +178,12 @@ public class AlbumActivity extends AppCompatActivity {
         });
 
         ImageButton editMultiple = findViewById(R.id.edit_multiple_image_data);
+        editMultiple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editMultipleImagesKeywords();
+            }
+        });
 
         topButtons.setVisibility(View.GONE);
 
