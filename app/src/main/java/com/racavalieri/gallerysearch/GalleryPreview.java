@@ -50,6 +50,7 @@ public class GalleryPreview extends AppCompatActivity {
         setContentView(R.layout.gallery_preview);
         Intent intent = getIntent();
         dao = new DAO(getApplicationContext());
+
         imageUri=null;
         shareButton = (ImageButton) findViewById(R.id.share_image);
         shareButton.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +64,14 @@ public class GalleryPreview extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Image i = new Image();
+
+                if(dao.exist(path,"IMAGE","PATH", "PATH")){
+                    Cursor selectedImage = dao.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
+                            , "IMAGE", "PATH LIKE '%"+ imageUri.getPath()+"%'");
+                    if(selectedImage!=null && selectedImage.moveToNext()) {
+                        i.setKeywords(selectedImage.getString(1));
+                    }
+                }
                 i.setPath(imageUri.getPath());
                 editImageKeywords(i);
             }
@@ -123,6 +132,7 @@ public class GalleryPreview extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         edtImageDataKeyWords= dialog.findViewById(R.id.edt_edit_image_data_key_words);
+        edtImageDataKeyWords.setText(i.getKeywords());
 
         Button cancelButton = dialog.findViewById(R.id.edt_edit_image_data_button_cancel);
         Button saveButton = dialog.findViewById(R.id.edt_edit_image_data_button_save);

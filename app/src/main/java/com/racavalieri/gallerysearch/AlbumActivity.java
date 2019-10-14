@@ -107,15 +107,14 @@ public class AlbumActivity extends AppCompatActivity {
         /*addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> imagesPaths = getSelectedPaths();
+                 ArrayList<String> imagesPaths = getSelectedPaths();
 
                 for(String path : imagesPaths){
                     try{
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                         Date now = Calendar.getInstance().getTime();
                         String nowAsString = df.format(now);
-                        String[] argsToUpdate = new String[1];
-                        argsToUpdate[0] = path;
+                        String[] argsToUpdate = { "" + path };
 
                         ContentValues values = new ContentValues();
                         values.put("KEYWORDS", edtImageDataKeyWords.getText().toString());
@@ -123,7 +122,7 @@ public class AlbumActivity extends AppCompatActivity {
                         values.put("LASTMODIFIED", nowAsString);
 
                         if(dao.exist(path,"IMAGE","PATH", "PATH"))
-                            dao.update("IMAGE",values,"PATH",argsToUpdate);
+                            dao.update("IMAGE",values,"PATH = ?",argsToUpdate);
 
                         else
                             dao.insert("IMAGE", values);
