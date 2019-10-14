@@ -104,7 +104,7 @@ public class AlbumActivity extends AppCompatActivity {
             }
         });
 
-        /*addButton.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                  ArrayList<String> imagesPaths = getSelectedPaths();
@@ -114,18 +114,29 @@ public class AlbumActivity extends AppCompatActivity {
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                         Date now = Calendar.getInstance().getTime();
                         String nowAsString = df.format(now);
-                        String[] argsToUpdate = { "" + path };
+                       String[] argsToUpdate = { "" + path };
+
 
                         ContentValues values = new ContentValues();
-                        values.put("KEYWORDS", edtImageDataKeyWords.getText().toString());
                         values.put("PATH", path);
                         values.put("LASTMODIFIED", nowAsString);
 
-                        if(dao.exist(path,"IMAGE","PATH", "PATH"))
-                            dao.update("IMAGE",values,"PATH = ?",argsToUpdate);
+                        //if(dao.exist(path,"IMAGE","PATH", "PATH"))
+                          //  dao.update("IMAGE",values,"PATH = ?",argsToUpdate);
 
-                        else
+                        if(dao.exist(path,"IMAGE","PATH", "PATH")){
+                            Cursor selectedImage = dao.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
+                                    , "IMAGE", "PATH LIKE '%"+ path+"%'");
+                            if(selectedImage!=null && selectedImage.moveToNext()) {
+                                values.put("KEYWORDS", selectedImage.getString(1)+", "+edtImageDataKeyWords.getText().toString());
+                            }else{
+                                values.put("KEYWORDS", edtImageDataKeyWords.getText().toString());
+                            }
+                            dao.update("IMAGE",values,"PATH = ?",argsToUpdate);
+                        }
+                        else{
                             dao.insert("IMAGE", values);
+                        }
                         Toast.makeText(AlbumActivity.this, getString(R.string.data_saved),Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }catch (Exception e){
@@ -133,7 +144,7 @@ public class AlbumActivity extends AppCompatActivity {
                     }
                 }
             }
-        });*/
+        });
 
 
         dialog.show();
