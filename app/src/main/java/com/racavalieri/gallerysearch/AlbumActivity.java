@@ -88,11 +88,11 @@ public class AlbumActivity extends AppCompatActivity {
                         values.put("PATH", path);
                         values.put("LASTMODIFIED", nowAsString);
 
-                        if (dao.exist(path, "IMAGE", "PATH", "PATH"))
-                            dao.update("IMAGE", values, "PATH = ?", argsToUpdate);
+                        if (DAO.exist(path, "IMAGE", "PATH", "PATH"))
+                            DAO.update("IMAGE", values, "PATH = ?", argsToUpdate);
 
                         else
-                            dao.insert("IMAGE", values);
+                            DAO.insert("IMAGE", values);
                         Toast.makeText(AlbumActivity.this, getString(R.string.data_saved), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     } catch (Exception e) {
@@ -119,17 +119,17 @@ public class AlbumActivity extends AppCompatActivity {
                         values.put("PATH", path);
                         values.put("LASTMODIFIED", nowAsString);
 
-                        if (dao.exist(path, "IMAGE", "PATH", "PATH")) {
-                            Cursor selectedImage = dao.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
+                        if (DAO.exist(path, "IMAGE", "PATH", "PATH")) {
+                            Cursor selectedImage = DAO.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
                                     , "IMAGE", "PATH LIKE '%" + path + "%'");
                             if (selectedImage != null && selectedImage.moveToNext()) {
                                 values.put("KEYWORDS", selectedImage.getString(1) + ", " + edtImageDataKeyWords.getText().toString());
                             } else {
                                 values.put("KEYWORDS", edtImageDataKeyWords.getText().toString());
                             }
-                            dao.update("IMAGE", values, "PATH = ?", argsToUpdate);
+                            DAO.update("IMAGE", values, "PATH = ?", argsToUpdate);
                         } else {
-                            dao.insert("IMAGE", values);
+                            DAO.insert("IMAGE", values);
                         }
                         Toast.makeText(AlbumActivity.this, getString(R.string.data_saved), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
@@ -189,7 +189,7 @@ public class AlbumActivity extends AppCompatActivity {
 
         topButtons.setVisibility(View.GONE);
 
-        galleryGridView = (GridView) findViewById(R.id.galleryGridView);
+        galleryGridView = findViewById(R.id.galleryGridView);
         int iDisplayWidth = getResources().getDisplayMetrics().widthPixels;
         Resources resources = getApplicationContext().getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
@@ -338,7 +338,7 @@ class SingleAlbumAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(activity).inflate(
                     R.layout.single_album_row, parent, false);
 
-            holder.galleryImage = (ImageView) convertView.findViewById(R.id.galleryImage);
+            holder.galleryImage = convertView.findViewById(R.id.galleryImage);
             holder.selectedIcon = convertView.findViewById(R.id.checkIcon);
 
             convertView.setTag(holder);

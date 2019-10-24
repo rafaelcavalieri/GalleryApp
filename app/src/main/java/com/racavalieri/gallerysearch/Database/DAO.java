@@ -28,10 +28,7 @@ public class DAO {
     public static boolean exist(String fields, String table, String Column, String where) {
         SQLiteDatabase db = database.getReadableDatabase();
 
-        if (DatabaseUtils.queryNumEntries(db, table, Column + "=?", new String[]{fields}) > 0)
-            return true;
-        else
-            return false;
+        return DatabaseUtils.queryNumEntries(db, table, Column + "=?", new String[]{fields}) > 0;
     }
 
     public static Cursor select(String fields, String table, String where) {

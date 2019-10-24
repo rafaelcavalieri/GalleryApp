@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        galleryGridView = (GridView) findViewById(R.id.galleryGridView);
+        galleryGridView = findViewById(R.id.galleryGridView);
 
         int iDisplayWidth = getResources().getDisplayMetrics().widthPixels;
         Resources resources = getApplicationContext().getResources();
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void searchDatabase(String query) {
-        Cursor selectedImages = dao.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
+        Cursor selectedImages = DAO.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
                 , "IMAGE", "KEYWORDS LIKE '%" + query + "%'");
         if (selectedImages == null || !selectedImages.moveToNext()) {
             Toast.makeText(MainActivity.this, getString(R.string.nothing_found), Toast.LENGTH_SHORT).show();
@@ -247,9 +247,9 @@ class AlbumAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(activity).inflate(
                     R.layout.album_row, parent, false);
 
-            holder.galleryImage = (ImageView) convertView.findViewById(R.id.galleryImage);
-            holder.gallery_count = (TextView) convertView.findViewById(R.id.gallery_count);
-            holder.gallery_title = (TextView) convertView.findViewById(R.id.gallery_title);
+            holder.galleryImage = convertView.findViewById(R.id.galleryImage);
+            holder.gallery_count = convertView.findViewById(R.id.gallery_count);
+            holder.gallery_title = convertView.findViewById(R.id.gallery_title);
 
             convertView.setTag(holder);
         } else {

@@ -52,21 +52,21 @@ public class GalleryPreview extends AppCompatActivity {
         dao = new DAO(getApplicationContext());
 
         imageUri = null;
-        shareButton = (ImageButton) findViewById(R.id.share_image);
+        shareButton = findViewById(R.id.share_image);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 shareImage(imageUri);
             }
         });
-        editImageData = (ImageButton) findViewById(R.id.edit_image_data);
+        editImageData = findViewById(R.id.edit_image_data);
         editImageData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Image i = new Image();
 
-                if (dao.exist(path, "IMAGE", "PATH", "PATH")) {
-                    Cursor selectedImage = dao.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
+                if (DAO.exist(path, "IMAGE", "PATH", "PATH")) {
+                    Cursor selectedImage = DAO.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
                             , "IMAGE", "PATH LIKE '%" + imageUri.getPath() + "%'");
                     if (selectedImage != null && selectedImage.moveToNext()) {
                         i.setKeywords(selectedImage.getString(1));
@@ -77,7 +77,7 @@ public class GalleryPreview extends AppCompatActivity {
             }
         });
 
-        GalleryPreviewImg = (ImageView) findViewById(R.id.GalleryPreviewImg);
+        GalleryPreviewImg = findViewById(R.id.GalleryPreviewImg);
         if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW) && intent.getType() != null)
             imageUri = intent.getData();
         else if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_SEND) && intent.getType() != null)
@@ -157,11 +157,11 @@ public class GalleryPreview extends AppCompatActivity {
                     values.put("PATH", i.getPath());
                     values.put("LASTMODIFIED", nowAsString);
 
-                    if (dao.exist(i.getPath(), "IMAGE", "PATH", "PATH"))
-                        dao.update("IMAGE", values, "PATH", argsToUpdate);
+                    if (DAO.exist(i.getPath(), "IMAGE", "PATH", "PATH"))
+                        DAO.update("IMAGE", values, "PATH", argsToUpdate);
 
                     else
-                        dao.insert("IMAGE", values);
+                        DAO.insert("IMAGE", values);
                     Toast.makeText(GalleryPreview.this, getString(R.string.data_saved), Toast.LENGTH_LONG).show();
                     dialog.dismiss();
                 } catch (Exception e) {
