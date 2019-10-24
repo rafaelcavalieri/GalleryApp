@@ -38,9 +38,8 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static DAO dao;
-
     static final int REQUEST_PERMISSION_KEY = 1;
+    private static DAO dao;
     LoadAlbum loadAlbumTask;
     GridView galleryGridView;
     ArrayList<HashMap<String, String>> albumList = new ArrayList<HashMap<String, String>>();
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         dao = new DAO(getApplicationContext());
 
-        searchImages = findViewById(R.id.edt_search_images );
+        searchImages = findViewById(R.id.edt_search_images);
 
         searchImages.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -62,8 +61,7 @@ public class MainActivity extends AppCompatActivity {
                         || event.getAction() == KeyEvent.ACTION_DOWN) {
                     loadGalleryOrExecuteQuery();
                     return true;
-                }
-                else {
+                } else {
                     return false;
                 }
             }
@@ -71,27 +69,26 @@ public class MainActivity extends AppCompatActivity {
 
         galleryGridView = (GridView) findViewById(R.id.galleryGridView);
 
-        int iDisplayWidth = getResources().getDisplayMetrics().widthPixels ;
+        int iDisplayWidth = getResources().getDisplayMetrics().widthPixels;
         Resources resources = getApplicationContext().getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float dp = iDisplayWidth / (metrics.densityDpi / 160f);
 
-        if(dp < 360)
-        {
+        if (dp < 360) {
             dp = (dp - 17) / 2;
             float px = Function.convertDpToPixel(dp, getApplicationContext());
             galleryGridView.setColumnWidth(Math.round(px));
         }
 
         String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-        if(!Function.hasPermissions(this, PERMISSIONS)){
+        if (!Function.hasPermissions(this, PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_PERMISSION_KEY);
         }
     }
 
     private void loadGalleryOrExecuteQuery() {
         final String query = searchImages.getText().toString();
-        if(TextUtils.isEmpty(query)) {
+        if (TextUtils.isEmpty(query)) {
             loadAlbumTask = new LoadAlbum();
             loadAlbumTask.execute();
         } else {
@@ -101,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void searchDatabase(String query) {
         Cursor selectedImages = dao.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
-                , "IMAGE", "KEYWORDS LIKE '%"+ query+"%'");
-        if(selectedImages==null || !selectedImages.moveToNext()) {
+                , "IMAGE", "KEYWORDS LIKE '%" + query + "%'");
+        if (selectedImages == null || !selectedImages.moveToNext()) {
             Toast.makeText(MainActivity.this, getString(R.string.nothing_found), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -135,6 +132,34 @@ public class MainActivity extends AppCompatActivity {
         return searchList;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_PERMISSION_KEY: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    loadAlbumTask = new LoadAlbum();
+                    loadAlbumTask.execute();
+                } else {
+                    Toast.makeText(MainActivity.this, getString(R.string.accept_permissions), Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (!Function.hasPermissions(this, PERMISSIONS)) {
+            ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_PERMISSION_KEY);
+        } else {
+            loadGalleryOrExecuteQuery();
+        }
+
+    }
 
     class LoadAlbum extends AsyncTask<String, Void, String> {
         @Override
@@ -154,13 +179,13 @@ public class MainActivity extends AppCompatActivity {
             Uri uriInternal = android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI;
 
 
-            String[] projection = { MediaStore.MediaColumns.DATA,
-                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED };
+            String[] projection = {MediaStore.MediaColumns.DATA,
+                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED};
             Cursor cursorExternal = getContentResolver().query(uriExternal, projection, "_data IS NOT NULL) GROUP BY (bucket_display_name",
                     null, null);
             Cursor cursorInternal = getContentResolver().query(uriInternal, projection, "_data IS NOT NULL) GROUP BY (bucket_display_name",
                     null, null);
-            Cursor cursor = new MergeCursor(new Cursor[]{cursorExternal,cursorInternal});
+            Cursor cursor = new MergeCursor(new Cursor[]{cursorExternal, cursorInternal});
 
             while (cursor.moveToNext()) {
 
@@ -191,61 +216,26 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode)
-        {
-            case REQUEST_PERMISSION_KEY: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    loadAlbumTask = new LoadAlbum();
-                    loadAlbumTask.execute();
-                } else
-                {
-                    Toast.makeText(MainActivity.this, getString(R.string.accept_permissions), Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-
-    }
-
-
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-        if(!Function.hasPermissions(this, PERMISSIONS)){
-            ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_PERMISSION_KEY);
-        }else{
-            loadGalleryOrExecuteQuery();
-        }
-
-    }
 }
-
-
 
 
 class AlbumAdapter extends BaseAdapter {
     private Activity activity;
-    private ArrayList<HashMap< String, String >> data;
-    public AlbumAdapter(Activity a, ArrayList < HashMap < String, String >> d) {
+    private ArrayList<HashMap<String, String>> data;
+
+    public AlbumAdapter(Activity a, ArrayList<HashMap<String, String>> d) {
         activity = a;
         data = d;
     }
+
     public int getCount() {
         return data.size();
     }
+
     public Object getItem(int position) {
         return position;
     }
+
     public long getItemId(int position) {
         return position;
     }
@@ -269,7 +259,7 @@ class AlbumAdapter extends BaseAdapter {
         holder.gallery_count.setId(position);
         holder.gallery_title.setId(position);
 
-        HashMap < String, String > song = new HashMap < String, String > ();
+        HashMap<String, String> song = new HashMap<String, String>();
         song = data.get(position);
         try {
             holder.gallery_title.setText(song.get(Function.KEY_ALBUM));
@@ -280,7 +270,8 @@ class AlbumAdapter extends BaseAdapter {
                     .into(holder.galleryImage);
 
 
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return convertView;
     }
 }

@@ -35,13 +35,13 @@ import java.util.Locale;
 
 public class GalleryPreview extends AppCompatActivity {
 
+    private static DAO dao;
     private ImageView GalleryPreviewImg;
     private String path;
-    private Uri imageUri=null;
+    private Uri imageUri = null;
     private ImageButton shareButton;
     private ImageButton editImageData;
     private EditText edtImageDataKeyWords;
-    private static DAO dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class GalleryPreview extends AppCompatActivity {
         Intent intent = getIntent();
         dao = new DAO(getApplicationContext());
 
-        imageUri=null;
+        imageUri = null;
         shareButton = (ImageButton) findViewById(R.id.share_image);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,10 +65,10 @@ public class GalleryPreview extends AppCompatActivity {
             public void onClick(View view) {
                 Image i = new Image();
 
-                if(dao.exist(path,"IMAGE","PATH", "PATH")){
+                if (dao.exist(path, "IMAGE", "PATH", "PATH")) {
                     Cursor selectedImage = dao.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
-                            , "IMAGE", "PATH LIKE '%"+ imageUri.getPath()+"%'");
-                    if(selectedImage!=null && selectedImage.moveToNext()) {
+                            , "IMAGE", "PATH LIKE '%" + imageUri.getPath() + "%'");
+                    if (selectedImage != null && selectedImage.moveToNext()) {
                         i.setKeywords(selectedImage.getString(1));
                     }
                 }
@@ -78,10 +78,10 @@ public class GalleryPreview extends AppCompatActivity {
         });
 
         GalleryPreviewImg = (ImageView) findViewById(R.id.GalleryPreviewImg);
-        if(intent.getAction()!=null && intent.getAction().equals(Intent.ACTION_VIEW) && intent.getType() !=null)
+        if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW) && intent.getType() != null)
             imageUri = intent.getData();
-        else if(intent.getAction()!=null && intent.getAction().equals(Intent.ACTION_SEND) && intent.getType() !=null)
-            imageUri= (Uri)intent.getExtras().get(Intent.EXTRA_STREAM);
+        else if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_SEND) && intent.getType() != null)
+            imageUri = (Uri) intent.getExtras().get(Intent.EXTRA_STREAM);
         if (imageUri != null) {
             try {
                 Glide.with(GalleryPreview.this)
@@ -90,9 +90,7 @@ public class GalleryPreview extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-
-        else {
+        } else {
             path = intent.getStringExtra("path");
             imageUri = Uri.parse(path);
             try {
@@ -105,8 +103,8 @@ public class GalleryPreview extends AppCompatActivity {
         }
     }
 
-    private void shareImage(Uri imageUri){
-        Bitmap icon = ((BitmapDrawable)GalleryPreviewImg.getDrawable()).getBitmap();
+    private void shareImage(Uri imageUri) {
+        Bitmap icon = ((BitmapDrawable) GalleryPreviewImg.getDrawable()).getBitmap();
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/jpeg");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -119,19 +117,19 @@ public class GalleryPreview extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+Environment.getExternalStorageDirectory().getPath()+"/temporary_file.jpg"));
+        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + Environment.getExternalStorageDirectory().getPath() + "/temporary_file.jpg"));
         startActivity(Intent.createChooser(share, getString(R.string.share_image)));
 
     }
 
-    private void editImageKeywords(final Image i){
+    private void editImageKeywords(final Image i) {
         final Dialog dialog = new Dialog(GalleryPreview.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.edit_image_data);
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        edtImageDataKeyWords= dialog.findViewById(R.id.edt_edit_image_data_key_words);
+        edtImageDataKeyWords = dialog.findViewById(R.id.edt_edit_image_data_key_words);
         edtImageDataKeyWords.setText(i.getKeywords());
 
         Button cancelButton = dialog.findViewById(R.id.edt_edit_image_data_button_cancel);
@@ -147,7 +145,7 @@ public class GalleryPreview extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
+                try {
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                     Date now = Calendar.getInstance().getTime();
                     String nowAsString = df.format(now);
@@ -159,14 +157,14 @@ public class GalleryPreview extends AppCompatActivity {
                     values.put("PATH", i.getPath());
                     values.put("LASTMODIFIED", nowAsString);
 
-                    if(dao.exist(i.getPath(),"IMAGE","PATH", "PATH"))
-                        dao.update("IMAGE",values,"PATH",argsToUpdate);
+                    if (dao.exist(i.getPath(), "IMAGE", "PATH", "PATH"))
+                        dao.update("IMAGE", values, "PATH", argsToUpdate);
 
                     else
                         dao.insert("IMAGE", values);
-                    Toast.makeText(GalleryPreview.this, getString(R.string.data_saved),Toast.LENGTH_LONG).show();
+                    Toast.makeText(GalleryPreview.this, getString(R.string.data_saved), Toast.LENGTH_LONG).show();
                     dialog.dismiss();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -176,8 +174,8 @@ public class GalleryPreview extends AppCompatActivity {
 
     private String getPath(Uri uri) {
 
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContentResolver().query(uri, projection, null, null,null);
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
 
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();

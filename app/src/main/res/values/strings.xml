@@ -7,13 +7,10 @@
     <string name="add">Adicionar</string>
     <string name="cancel">Cancelar</string>
     <string name="save">Salvar</string>
-    <string name="edit">Editar</string>
     <string name="keywords_hint">Ex: gato, meme, postagem</string>
     <string name="search_image_edt">Digite separado por vírgulas</string>
     <string name="share_image">Compartilhar Imagem</string>
     <string name="data_saved">Dados salvos!</string>
     <string name="accept_permissions">Você deve aceitar as permissões para o aplicativo funcionar corretamente!</string>
     <string name="nothing_found">Nada encontrado</string>
-    <string name="confirmation_delete_image">Excluir imagem?</string>
-    <string name="confirmation_delete_multiple_images">Excluir imagens selecionadas?</string>
 </resources>

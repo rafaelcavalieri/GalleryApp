@@ -29,7 +29,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.racavalieri.gallerysearch.Database.DAO;
-import com.racavalieri.gallerysearch.Entity.Image;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -43,24 +42,23 @@ import java.util.Locale;
 
 
 public class AlbumActivity extends AppCompatActivity {
+    private static DAO dao;
     GridView galleryGridView;
     ArrayList<HashMap<String, String>> imageList = new ArrayList<HashMap<String, String>>();
     String album_name = "";
     LoadAlbumImages loadAlbumTask;
     RelativeLayout topButtons;
+    HashMap<String, HashMap<String, String>> selectedItems = new HashMap<>();
     private EditText edtImageDataKeyWords;
-    private static DAO dao;
 
-    HashMap<String, HashMap< String, String >> selectedItems = new HashMap<>();
-
-    private void editMultipleImagesKeywords(){
+    private void editMultipleImagesKeywords() {
         final Dialog dialog = new Dialog(AlbumActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.edit_multiple_image_data);
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-        edtImageDataKeyWords= dialog.findViewById(R.id.edt_edit_image_data_key_words);
+        edtImageDataKeyWords = dialog.findViewById(R.id.edt_edit_image_data_key_words);
 
         Button cancelButton = dialog.findViewById(R.id.edt_edit_image_data_button_cancel);
         Button replaceButton = dialog.findViewById(R.id.edt_edit_image_data_button_replace);
@@ -78,26 +76,26 @@ public class AlbumActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ArrayList<String> imagesPaths = getSelectedPaths();
 
-                for(String path : imagesPaths){
-                    try{
+                for (String path : imagesPaths) {
+                    try {
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                         Date now = Calendar.getInstance().getTime();
                         String nowAsString = df.format(now);
-                        String[] argsToUpdate = { "" + path };
+                        String[] argsToUpdate = {"" + path};
 
                         ContentValues values = new ContentValues();
                         values.put("KEYWORDS", edtImageDataKeyWords.getText().toString());
                         values.put("PATH", path);
                         values.put("LASTMODIFIED", nowAsString);
 
-                        if(dao.exist(path,"IMAGE","PATH", "PATH"))
-                            dao.update("IMAGE",values,"PATH = ?",argsToUpdate);
+                        if (dao.exist(path, "IMAGE", "PATH", "PATH"))
+                            dao.update("IMAGE", values, "PATH = ?", argsToUpdate);
 
                         else
                             dao.insert("IMAGE", values);
-                        Toast.makeText(AlbumActivity.this, getString(R.string.data_saved),Toast.LENGTH_LONG).show();
+                        Toast.makeText(AlbumActivity.this, getString(R.string.data_saved), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -107,14 +105,14 @@ public class AlbumActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 ArrayList<String> imagesPaths = getSelectedPaths();
+                ArrayList<String> imagesPaths = getSelectedPaths();
 
-                for(String path : imagesPaths){
-                    try{
+                for (String path : imagesPaths) {
+                    try {
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                         Date now = Calendar.getInstance().getTime();
                         String nowAsString = df.format(now);
-                       String[] argsToUpdate = { "" + path };
+                        String[] argsToUpdate = {"" + path};
 
 
                         ContentValues values = new ContentValues();
@@ -122,24 +120,23 @@ public class AlbumActivity extends AppCompatActivity {
                         values.put("LASTMODIFIED", nowAsString);
 
                         //if(dao.exist(path,"IMAGE","PATH", "PATH"))
-                          //  dao.update("IMAGE",values,"PATH = ?",argsToUpdate);
+                        //  dao.update("IMAGE",values,"PATH = ?",argsToUpdate);
 
-                        if(dao.exist(path,"IMAGE","PATH", "PATH")){
+                        if (dao.exist(path, "IMAGE", "PATH", "PATH")) {
                             Cursor selectedImage = dao.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
-                                    , "IMAGE", "PATH LIKE '%"+ path+"%'");
-                            if(selectedImage!=null && selectedImage.moveToNext()) {
-                                values.put("KEYWORDS", selectedImage.getString(1)+", "+edtImageDataKeyWords.getText().toString());
-                            }else{
+                                    , "IMAGE", "PATH LIKE '%" + path + "%'");
+                            if (selectedImage != null && selectedImage.moveToNext()) {
+                                values.put("KEYWORDS", selectedImage.getString(1) + ", " + edtImageDataKeyWords.getText().toString());
+                            } else {
                                 values.put("KEYWORDS", edtImageDataKeyWords.getText().toString());
                             }
-                            dao.update("IMAGE",values,"PATH = ?",argsToUpdate);
-                        }
-                        else{
+                            dao.update("IMAGE", values, "PATH = ?", argsToUpdate);
+                        } else {
                             dao.insert("IMAGE", values);
                         }
-                        Toast.makeText(AlbumActivity.this, getString(R.string.data_saved),Toast.LENGTH_LONG).show();
+                        Toast.makeText(AlbumActivity.this, getString(R.string.data_saved), Toast.LENGTH_LONG).show();
                         dialog.dismiss();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -150,7 +147,7 @@ public class AlbumActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void shareMultipleImages(){
+    private void shareMultipleImages() {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND_MULTIPLE);
         intent.putExtra(Intent.EXTRA_SUBJECT, "");
@@ -158,7 +155,7 @@ public class AlbumActivity extends AppCompatActivity {
 
         ArrayList<Uri> files = new ArrayList<Uri>();
 
-        for(String path : getSelectedPaths() ) {
+        for (String path : getSelectedPaths()) {
             File file = new File(path);
             Uri uri = Uri.fromFile(file);
             files.add(uri);
@@ -198,12 +195,12 @@ public class AlbumActivity extends AppCompatActivity {
         topButtons.setVisibility(View.GONE);
 
         galleryGridView = (GridView) findViewById(R.id.galleryGridView);
-        int iDisplayWidth = getResources().getDisplayMetrics().widthPixels ;
+        int iDisplayWidth = getResources().getDisplayMetrics().widthPixels;
         Resources resources = getApplicationContext().getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float dp = iDisplayWidth / (metrics.densityDpi / 160f);
 
-        if(dp < 360) {
+        if (dp < 360) {
             dp = (dp - 17) / 2;
             float px = com.racavalieri.gallerysearch.Function.convertDpToPixel(dp, getApplicationContext());
             galleryGridView.setColumnWidth(Math.round(px));
@@ -211,6 +208,54 @@ public class AlbumActivity extends AppCompatActivity {
 
         loadAlbumTask = new LoadAlbumImages();
         loadAlbumTask.execute();
+    }
+
+    private void onItemClicked(int position, boolean isLongClick) {
+        if (selectedItems.size() == 0 && !isLongClick) {
+            Intent intent = new Intent(AlbumActivity.this, GalleryPreview.class);
+            intent.putExtra("path", imageList.get(+position).get(Function.KEY_PATH));
+            startActivity(intent);
+            return;
+        }
+
+        final HashMap<String, String> selectedItem = imageList.get(position);
+        String path = selectedItem.get(Function.KEY_PATH);
+
+        if (selectedItems.containsKey(path)) {
+            removeSelection(selectedItem);
+        } else {
+            addSelection(selectedItem);
+        }
+    }
+
+    private void removeSelection(HashMap<String, String> itemAtPosition) {
+        itemAtPosition.remove(Function.KEY_SELECTED);
+        selectedItems.remove(itemAtPosition.get(Function.KEY_PATH));
+        final SingleAlbumAdapter adapter = (SingleAlbumAdapter) galleryGridView.getAdapter();
+        adapter.notifyDataSetChanged();
+
+        if (selectedItems.size() == 0) {
+            topButtons.setVisibility(View.GONE);
+        }
+    }
+
+    private void addSelection(HashMap<String, String> itemAtPosition) {
+        itemAtPosition.put(Function.KEY_SELECTED, "");
+        selectedItems.put(itemAtPosition.get(Function.KEY_PATH), itemAtPosition);
+        final SingleAlbumAdapter adapter = (SingleAlbumAdapter) galleryGridView.getAdapter();
+        adapter.notifyDataSetChanged();
+
+        topButtons.setVisibility(View.VISIBLE);
+    }
+
+    private ArrayList<String> getSelectedPaths() {
+        ArrayList<String> paths = new ArrayList<>();
+        for (HashMap<String, String> value : selectedItems.values()) {
+            final String path = value.get(Function.KEY_PATH);
+            paths.add(path);
+        }
+
+        return paths;
     }
 
     class LoadAlbumImages extends AsyncTask<String, Void, String> {
@@ -229,12 +274,12 @@ public class AlbumActivity extends AppCompatActivity {
             Uri uriExternal = android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
             Uri uriInternal = android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI;
 
-            String[] projection = { MediaStore.MediaColumns.DATA,
-                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED };
+            String[] projection = {MediaStore.MediaColumns.DATA,
+                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED};
 
-            Cursor cursorExternal = getContentResolver().query(uriExternal, projection, "bucket_display_name = \""+album_name+"\"", null, null);
-            Cursor cursorInternal = getContentResolver().query(uriInternal, projection, "bucket_display_name = \""+album_name+"\"", null, null);
-            Cursor cursor = new MergeCursor(new Cursor[]{cursorExternal,cursorInternal});
+            Cursor cursorExternal = getContentResolver().query(uriExternal, projection, "bucket_display_name = \"" + album_name + "\"", null, null);
+            Cursor cursorInternal = getContentResolver().query(uriInternal, projection, "bucket_display_name = \"" + album_name + "\"", null, null);
+            Cursor cursor = new MergeCursor(new Cursor[]{cursorExternal, cursorInternal});
             while (cursor.moveToNext()) {
 
                 path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA));
@@ -268,69 +313,25 @@ public class AlbumActivity extends AppCompatActivity {
             });
         }
     }
-
-    private void onItemClicked(int position, boolean isLongClick) {
-        if(selectedItems.size() == 0 && !isLongClick) {
-            Intent intent = new Intent(AlbumActivity.this, GalleryPreview.class);
-            intent.putExtra("path", imageList.get(+position).get(Function.KEY_PATH));
-            startActivity(intent);
-            return;
-        }
-
-        final HashMap<String, String> selectedItem = imageList.get(position);
-        String path = selectedItem.get(Function.KEY_PATH);
-
-        if(selectedItems.containsKey(path)) {
-            removeSelection(selectedItem);
-        } else {
-            addSelection(selectedItem);
-        }
-    }
-
-    private void removeSelection(HashMap<String, String> itemAtPosition) {
-        itemAtPosition.remove(Function.KEY_SELECTED);
-        selectedItems.remove(itemAtPosition.get(Function.KEY_PATH));
-        final SingleAlbumAdapter adapter = (SingleAlbumAdapter) galleryGridView.getAdapter();
-        adapter.notifyDataSetChanged();
-
-        if(selectedItems.size() == 0) {
-            topButtons.setVisibility(View.GONE);
-        }
-    }
-
-    private void addSelection(HashMap<String, String> itemAtPosition) {
-        itemAtPosition.put(Function.KEY_SELECTED, "");
-        selectedItems.put(itemAtPosition.get(Function.KEY_PATH), itemAtPosition);
-        final SingleAlbumAdapter adapter = (SingleAlbumAdapter) galleryGridView.getAdapter();
-        adapter.notifyDataSetChanged();
-
-        topButtons.setVisibility(View.VISIBLE);
-    }
-
-    private ArrayList<String> getSelectedPaths() {
-        ArrayList<String> paths = new ArrayList<>();
-        for (HashMap<String, String> value : selectedItems.values()) {
-            final String path = value.get(Function.KEY_PATH);
-            paths.add(path);
-        }
-
-        return paths;
-    }
 }
 
 class SingleAlbumAdapter extends BaseAdapter {
     private Activity activity;
-    private ArrayList<HashMap< String, String >> data;
-    public SingleAlbumAdapter(Activity a, ArrayList < HashMap < String, String >> d) {
+    private ArrayList<HashMap<String, String>> data;
+
+    public SingleAlbumAdapter(Activity a, ArrayList<HashMap<String, String>> d) {
         activity = a;
         data = d;
     }
+
     public int getCount() {
         return data.size();
     }
+
     public Object getItem(int position) {
         return data.get(position);
     }
+
     public long getItemId(int position) {
         return position;
     }
@@ -351,10 +352,10 @@ class SingleAlbumAdapter extends BaseAdapter {
         }
         holder.galleryImage.setId(position);
 
-        HashMap < String, String > song = new HashMap < String, String > ();
+        HashMap<String, String> song = new HashMap<String, String>();
         song = data.get(position);
 
-        if(song.get(Function.KEY_SELECTED) != null) {
+        if (song.get(Function.KEY_SELECTED) != null) {
             holder.selectedIcon.setVisibility(View.VISIBLE);
         } else {
             holder.selectedIcon.setVisibility(View.GONE);
@@ -365,7 +366,8 @@ class SingleAlbumAdapter extends BaseAdapter {
             Glide.with(activity)
                     .load(new File(song.get(Function.KEY_PATH))) // Uri of the picture
                     .into(holder.galleryImage);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return convertView;
     }
 }

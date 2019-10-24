@@ -1,6 +1,6 @@
 package com.racavalieri.gallerysearch.Entity;
 
-public class Image{
+public class Image {
 
     public int uid;
 

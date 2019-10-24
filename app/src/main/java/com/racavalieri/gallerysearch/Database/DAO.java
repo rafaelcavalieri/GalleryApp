@@ -6,12 +6,10 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.racavalieri.gallerysearch.Configurations;
 
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,17 +27,17 @@ public class DAO {
 
         try {
             database = new Database(context);
-        } catch( Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void execute(String query){
+    public static void execute(String query) {
         SQLiteDatabase db = database.getWritableDatabase();
         db.execSQL(query);
     }
 
-    public static long insert(String table, ContentValues values){
+    public static long insert(String table, ContentValues values) {
         SQLiteDatabase db = database.getWritableDatabase();
         long rowsInserted = -1;
         try {
@@ -85,17 +83,17 @@ public class DAO {
      * @param nomeDaTabela
      * @return Cursor
      */
-    public static Cursor select(String oQue, String nomeDaTabela){
+    public static Cursor select(String oQue, String nomeDaTabela) {
         SQLiteDatabase db = database.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT " + oQue + " FROM " + nomeDaTabela + ";", null);
         return cursor;
     }
 
-    public static long update(String table, ContentValues values, String whereClause, String[] whereArgs){
+    public static long update(String table, ContentValues values, String whereClause, String[] whereArgs) {
         SQLiteDatabase db = database.getWritableDatabase();
         long rowsInserted = -1;
         try {
-            rowsInserted = db.update(table,values,whereClause,whereArgs);
+            rowsInserted = db.update(table, values, whereClause, whereArgs);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,10 +102,10 @@ public class DAO {
         return rowsInserted;
     }
 
-    public static boolean exist(String fields, String table, String Column, String where){
+    public static boolean exist(String fields, String table, String Column, String where) {
         SQLiteDatabase db = database.getReadableDatabase();
 
-        if(DatabaseUtils.queryNumEntries(db, table, Column+"=?", new String[] {fields})>0)
+        if (DatabaseUtils.queryNumEntries(db, table, Column + "=?", new String[]{fields}) > 0)
             return true;
         else
             return false;
@@ -119,7 +117,7 @@ public class DAO {
      * @param where
      * @return Cursor
      */
-    public static Cursor select(String fields, String table, String where){
+    public static Cursor select(String fields, String table, String where) {
         SQLiteDatabase db = database.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT " + fields + " FROM " + table + " WHERE " + where + ";", null);
         return cursor;
@@ -133,7 +131,7 @@ public class DAO {
      * @return ArrayList <HashMap>
      */
     public static ArrayList<HashMap<String, String>> selectAll(String nomeDaTabela) {
-        String selectQuery = "SELECT  * FROM "+nomeDaTabela;
+        String selectQuery = "SELECT  * FROM " + nomeDaTabela;
 
         SQLiteDatabase db = database.getReadableDatabase();
 
@@ -144,7 +142,7 @@ public class DAO {
             while (cursor.isAfterLast() == false) {
 
                 HashMap<String, String> map = new HashMap<String, String>();
-                for(int i=0;i<cursor.getColumnCount();i++) {
+                for (int i = 0; i < cursor.getColumnCount(); i++) {
                     map.put(cursor.getColumnName(i), cursor.getString(i));
                 }
 
@@ -154,12 +152,10 @@ public class DAO {
 
                 cursor.moveToNext();
             }
-        }
-        else if(cursor.getCount()>0){
+        } else if (cursor.getCount() > 0) {
             int name = cursor.getCount();
-            Log.d("DEBUG", "Unic Result: " +name);
-        }
-        else {
+            Log.d("DEBUG", "Unic Result: " + name);
+        } else {
             Log.d("DEBUG", "[1] No results in " + nomeDaTabela);
         }
 
@@ -175,7 +171,7 @@ public class DAO {
      * @return ArrayList <HashMap>
      */
     public static ArrayList<HashMap<String, String>> selectAll(String nomeDaTabela, String where, String valor) {
-        String selectQuery = "SELECT  * FROM "+nomeDaTabela+" WHERE "+where+" = "+valor;
+        String selectQuery = "SELECT  * FROM " + nomeDaTabela + " WHERE " + where + " = " + valor;
 
         SQLiteDatabase db = database.getReadableDatabase();
 
@@ -186,7 +182,7 @@ public class DAO {
             while (cursor.isAfterLast() == false) {
 
                 HashMap<String, String> map = new HashMap<String, String>();
-                for(int i=0;i<cursor.getColumnCount();i++) {
+                for (int i = 0; i < cursor.getColumnCount(); i++) {
                     map.put(cursor.getColumnName(i), cursor.getString(i));
                 }
 
@@ -196,12 +192,10 @@ public class DAO {
 
                 cursor.moveToNext();
             }
-        }
-        else if(cursor.getCount()>0){
+        } else if (cursor.getCount() > 0) {
             int name = cursor.getCount();
-            Log.d("DEBUG", "Unic Result: " +name);
-        }
-        else {
+            Log.d("DEBUG", "Unic Result: " + name);
+        } else {
             Log.d("DEBUG", "[2] No results in " + nomeDaTabela);
         }
 
@@ -217,7 +211,7 @@ public class DAO {
      * @return ArrayList <HashMap>
      */
     public static ArrayList<HashMap<String, String>> selectAllLike(String nomeDaTabela, String where, String valor) {
-        String selectQuery = "SELECT  * FROM "+nomeDaTabela+" WHERE '"+where+"' LIKE '%"+valor+"%'";
+        String selectQuery = "SELECT  * FROM " + nomeDaTabela + " WHERE '" + where + "' LIKE '%" + valor + "%'";
 
         SQLiteDatabase db = database.getReadableDatabase();
 
@@ -228,7 +222,7 @@ public class DAO {
             while (cursor.isAfterLast() == false) {
 
                 HashMap<String, String> map = new HashMap<String, String>();
-                for(int i=0;i<cursor.getColumnCount();i++) {
+                for (int i = 0; i < cursor.getColumnCount(); i++) {
                     map.put(cursor.getColumnName(i), cursor.getString(i));
                 }
 
@@ -238,12 +232,10 @@ public class DAO {
 
                 cursor.moveToNext();
             }
-        }
-        else if(cursor.getCount()>0){
+        } else if (cursor.getCount() > 0) {
             int name = cursor.getCount();
-            Log.d("DEBUG", "Unic Result: " +name);
-        }
-        else {
+            Log.d("DEBUG", "Unic Result: " + name);
+        } else {
             Log.d("DEBUG", "[0] No results in " + nomeDaTabela);
         }
 
@@ -261,20 +253,17 @@ public class DAO {
      * @return
      */
     public static boolean existe(String coluna, String valor, String nomeDaTabela) {
-        String selectQuery = "SELECT COUNT(*) FROM "+nomeDaTabela+" WHERE "+coluna+" = "+valor;
+        String selectQuery = "SELECT COUNT(*) FROM " + nomeDaTabela + " WHERE " + coluna + " = " + valor;
 
         SQLiteDatabase db = database.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if(cursor.moveToFirst()) {
-            if(cursor.getInt(0)>0) {
-                Log.d("DEBUG/SQL","Exists: "+cursor.getString(0));
+        if (cursor.moveToFirst()) {
+            if (cursor.getInt(0) > 0) {
+                Log.d("DEBUG/SQL", "Exists: " + cursor.getString(0));
                 return true;
-            }
-
-            else return false;
-        }
-        else return false;
+            } else return false;
+        } else return false;
     }
 
 
@@ -283,14 +272,13 @@ public class DAO {
      * Se ele existe, ATUALIZA
      * Se ele não existe, INSERE
      *
-     *
      * @param nomeDaTabela
      * @param valores
      * @return
      */
     public static boolean sincroniza(String nomeDaTabela, ContentValues valores) {
         boolean deletar_e_recriar = false; // Método de Sicronizar Dados (false quando fluxo de informações fo grande)
-        if(deletar_e_recriar) limparTabela(nomeDaTabela);
+        if (deletar_e_recriar) limparTabela(nomeDaTabela);
 
 
         String itemID = valores.getAsString("ID");
@@ -302,13 +290,12 @@ public class DAO {
 //        }
 
         // Atualização dos Existentes
-        if(existe("ID", itemID, nomeDaTabela)) {
-            Log.d("DEBUG/DAO","Item ID "+itemID+" encontrado, Atualizando...");
+        if (existe("ID", itemID, nomeDaTabela)) {
+            Log.d("DEBUG/DAO", "Item ID " + itemID + " encontrado, Atualizando...");
             atualizar(nomeDaTabela, valores);
             return true;
-        }
-        else {
-            Log.d("DEBUG/DAO","Item "+itemID+" não encontrado, Inserindo...");
+        } else {
+            Log.d("DEBUG/DAO", "Item " + itemID + " não encontrado, Inserindo...");
             insert(nomeDaTabela, valores);
             return false;
         }
@@ -329,7 +316,7 @@ public class DAO {
         int resultado = -1;
 
         try {
-            resultado = db.update(nomeDaTabela,valores,"ID="+valores.getAsString("ID"), null);
+            resultado = db.update(nomeDaTabela, valores, "ID=" + valores.getAsString("ID"), null);
         } finally {
             db.close();
         }
@@ -350,7 +337,7 @@ public class DAO {
         int resultado = -1;
 
         try {
-            resultado = db.update(nomeDaTabela,valores,where, null);
+            resultado = db.update(nomeDaTabela, valores, where, null);
         } finally {
             db.close();
         }
@@ -382,40 +369,40 @@ public class DAO {
 
     /**
      * Retorna o nome de todas as tabelas
-     *
+     * <p>
      * (Not working)
+     *
      * @return Cursor
      * Thanks to 'erdomester' on http://stackoverflow.com/questions/9647129/android-sqlite-show-tables
      */
-    public static Cursor showAllTables(){
+    public static Cursor showAllTables() {
         SQLiteDatabase db = database.getReadableDatabase();
-        return db.rawQuery("SELECT name FROM "+Configurations.DATABASE_NAME+" WHERE type='table' AND name LIKE 'PR_%'", null);
+        return db.rawQuery("SELECT name FROM " + Configurations.DATABASE_NAME + " WHERE type='table' AND name LIKE 'PR_%'", null);
     }
 
 
     /**
      * Show all with array return
-     *
+     * <p>
      * (Not working)
      */
-    public static List<String> showAllTablesArray(){
+    public static List<String> showAllTablesArray() {
         Cursor c = null;
         List<String> tables = new ArrayList<String>();
         SQLiteDatabase db = database.getReadableDatabase();
 
         try {
-            c = db.rawQuery("SELECT name FROM "+database.getDatabaseName()+" WHERE type='table'", null);
-            Log.d("DEBUG", ""+c.toString());
+            c = db.rawQuery("SELECT name FROM " + database.getDatabaseName() + " WHERE type='table'", null);
+            Log.d("DEBUG", "" + c.toString());
 
-            if (c.moveToFirst())
-            {
-                do{
+            if (c.moveToFirst()) {
+                do {
                     tables.add(c.getString(0));
 
-                }while (c.moveToNext());
+                } while (c.moveToNext());
             }
-        } catch( SQLiteException e) {
-            Log.d("DEBUG","Erro ao selecionar tabelas: "+e.toString());
+        } catch (SQLiteException e) {
+            Log.d("DEBUG", "Erro ao selecionar tabelas: " + e.toString());
         }
 
         return tables;
@@ -436,7 +423,7 @@ public class DAO {
             checkDB = SQLiteDatabase.openDatabase(myPath, null,
                     SQLiteDatabase.OPEN_READWRITE);
         } catch (Exception e) {
-            Log.d("DEBUG", "Database não existente.." +e.toString());
+            Log.d("DEBUG", "Database não existente.." + e.toString());
         }
 
         if (checkDB != null) {
@@ -447,21 +434,21 @@ public class DAO {
     }
 
 
-
     /**
      * Verifica se x Tabela existe no banco de dados
      * http://stackoverflow.com/questions/3058909/how-does-one-check-if-a-table-exists-in-an-android-sqlite-database
+     *
      * @param tableName
      * @return boolean
      */
     public static boolean tableExists(String tableName) {
         SQLiteDatabase db = database.getReadableDatabase();
-        Log.d("DEBUG","Checking: "+db.getPath());
+        Log.d("DEBUG", "Checking: " + db.getPath());
 
         Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = '" + tableName + "'", null);
 //        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from "+Configuracoes._DATABASE_NAME+" where tbl_name = '"+tableName+"'", null);
-        if(cursor!=null) {
-            if(cursor.getCount()>0) {
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
                 cursor.close();
                 return true;
             }
@@ -473,13 +460,14 @@ public class DAO {
     /**
      * Verifica se existem itens na tabela x
      * http://stackoverflow.com/questions/22630307/sqlite-check-if-table-is-empty
+     *
      * @param tableName
      */
     public static boolean isTableEmpty(String tableName) {
         SQLiteDatabase db = database.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT count(*) FROM "+tableName, null);
+        Cursor cursor = db.rawQuery("SELECT count(*) FROM " + tableName, null);
 
-        if(cursor!=null)
+        if (cursor != null)
             cursor.moveToFirst();
 
         if (cursor.getInt(0) > 0)
@@ -490,6 +478,7 @@ public class DAO {
 
     /**
      * Limpa todos os dados da tabela x
+     *
      * @param nomeDaTabela
      */
     public static int limparTabela(String nomeDaTabela) {
@@ -503,7 +492,7 @@ public class DAO {
      *
      * @return
      */
-    public static boolean resetActualDatatase(){
+    public static boolean resetActualDatatase() {
         try {
             Log.d("SQL", "_DATABASE_RESET habilitado!");
             dbContext.deleteDatabase(Configurations.DATABASE_NAME); // RESET DATABASE
@@ -511,7 +500,7 @@ public class DAO {
             return true;
 
         } catch (Exception e) {
-            Log.d("SQL", "Falha ao remover database: "+e);
+            Log.d("SQL", "Falha ao remover database: " + e);
             e.printStackTrace();
             return false;
         }
@@ -523,16 +512,16 @@ public class DAO {
      *
      * @return
      */
-    public static boolean resetAllDatatases(){
+    public static boolean resetAllDatatases() {
         try {
             Log.d("SQL", "_FULL_DATABASE_RESET habilitado!");
             for (String database : dbContext.databaseList()) {
                 dbContext.deleteDatabase(database); // RESET DATABASE
-                Log.d("SQL", "Removido database: "+database);
+                Log.d("SQL", "Removido database: " + database);
             }
             return true;
         } catch (Exception e) {
-            Log.d("SQL", "Falha ao remover database: "+e);
+            Log.d("SQL", "Falha ao remover database: " + e);
             e.printStackTrace();
             return false;
         }

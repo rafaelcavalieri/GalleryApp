@@ -2,16 +2,17 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/colorBackgroundDialog" />
 
-    <stroke android:width="3dp"
-        android:color="#ff0f0f0f"
-        />
+    <stroke
+        android:width="3dp"
+        android:color="#ff0f0f0f" />
 
-    <padding android:left="3dp"
-        android:top="3dp"
-        android:right="3dp"
+    <padding
         android:bottom="3dp"
-        />
+        android:left="3dp"
+        android:right="3dp"
+        android:top="3dp" />
 
-    <corners android:bottomRightRadius="25dp"
+    <corners
+        android:bottomRightRadius="25dp"
         android:topLeftRadius="25dp" />
 </shape>

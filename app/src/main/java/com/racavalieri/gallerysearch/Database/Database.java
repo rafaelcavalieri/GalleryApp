@@ -33,7 +33,7 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) throws SQLiteException {
         String sqlQuery = "";
-        if(db.isOpen()){
+        if (db.isOpen()) {
             try {
                 sqlQuery = "CREATE TABLE IF NOT EXISTS `IMAGE` (" +
                         "UID integer primary key autoincrement" +
@@ -44,7 +44,7 @@ public class Database extends SQLiteOpenHelper {
                         ",LONGITUDE text" +
                         ");";
                 db.execSQL(sqlQuery);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

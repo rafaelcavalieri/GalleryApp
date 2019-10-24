@@ -13,25 +13,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.racavalieri.gallerysearch.MainActivity"
+        <activity
+            android:name="com.racavalieri.gallerysearch.MainActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.racavalieri.gallerysearch.AlbumActivity"
-            android:configChanges="orientation|screenSize"/>
+        <activity
+            android:name="com.racavalieri.gallerysearch.AlbumActivity"
+            android:configChanges="orientation|screenSize" />
 
-        <activity android:name="com.racavalieri.gallerysearch.GalleryPreview"
+        <activity
+            android:name="com.racavalieri.gallerysearch.GalleryPreview"
             android:configChanges="orientation|screenSize">
-            <intent-filter android:scheme="http"
+            <intent-filter
+                android:scheme="http"
                 tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
                 <data android:mimeType="video/*" />
             </intent-filter>
