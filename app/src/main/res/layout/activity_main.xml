@@ -11,8 +11,8 @@
         android:hint="@string/search_image_edt"
         android:inputType="text"
         android:imeOptions="actionDone"
-        android:drawableRight="@drawable/ic_search_black_24dp"
-        android:drawableEnd="@drawable/ic_search_black_24dp"/>
+        android:drawableRight="@drawable/ic_search_24"
+        android:drawableEnd="@drawable/ic_search_24"/>
 
     <GridView
         android:id="@+id/galleryGridView"
