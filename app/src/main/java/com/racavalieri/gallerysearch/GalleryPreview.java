@@ -85,7 +85,7 @@ public class GalleryPreview extends AppCompatActivity {
         if (imageUri != null) {
             try {
                 Glide.with(GalleryPreview.this)
-                        .load(new File(getPath(imageUri))) // Uri of the picture
+                        .load(new File(getPath(imageUri)))
                         .into(GalleryPreviewImg);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -95,7 +95,7 @@ public class GalleryPreview extends AppCompatActivity {
             imageUri = Uri.parse(path);
             try {
                 Glide.with(GalleryPreview.this)
-                        .load(new File(path)) // Uri of the picture
+                        .load(new File(path))
                         .into(GalleryPreviewImg);
             } catch (Exception e) {
                 e.printStackTrace();

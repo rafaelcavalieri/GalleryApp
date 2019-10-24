@@ -119,9 +119,6 @@ public class AlbumActivity extends AppCompatActivity {
                         values.put("PATH", path);
                         values.put("LASTMODIFIED", nowAsString);
 
-                        //if(dao.exist(path,"IMAGE","PATH", "PATH"))
-                        //  dao.update("IMAGE",values,"PATH = ?",argsToUpdate);
-
                         if (dao.exist(path, "IMAGE", "PATH", "PATH")) {
                             Cursor selectedImage = dao.select("UID, KEYWORDS, PATH, LASTMODIFIED, LATITUDE, LONGITUDE"
                                     , "IMAGE", "PATH LIKE '%" + path + "%'");
@@ -142,8 +139,6 @@ public class AlbumActivity extends AppCompatActivity {
                 }
             }
         });
-
-
         dialog.show();
     }
 
@@ -289,7 +284,7 @@ public class AlbumActivity extends AppCompatActivity {
                 imageList.add(com.racavalieri.gallerysearch.Function.mappingInbox(album, path, timestamp, com.racavalieri.gallerysearch.Function.converToTime(timestamp), null));
             }
             cursor.close();
-            Collections.sort(imageList, new com.racavalieri.gallerysearch.MapComparator(Function.KEY_TIMESTAMP, "dsc")); // Arranging photo album by timestamp decending
+            Collections.sort(imageList, new com.racavalieri.gallerysearch.MapComparator(Function.KEY_TIMESTAMP, "dsc"));
             return xml;
         }
 
@@ -364,7 +359,7 @@ class SingleAlbumAdapter extends BaseAdapter {
         try {
 
             Glide.with(activity)
-                    .load(new File(song.get(Function.KEY_PATH))) // Uri of the picture
+                    .load(new File(song.get(Function.KEY_PATH)))
                     .into(holder.galleryImage);
         } catch (Exception e) {
         }

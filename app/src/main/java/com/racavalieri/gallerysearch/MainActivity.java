@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 albumList.add(Function.mappingInbox(album, path, timestamp, Function.converToTime(timestamp), countPhoto));
             }
             cursor.close();
-            Collections.sort(albumList, new MapComparator(Function.KEY_TIMESTAMP, "dsc")); // Arranging photo album by timestamp decending
+            Collections.sort(albumList, new MapComparator(Function.KEY_TIMESTAMP, "dsc"));
             return xml;
         }
 
@@ -266,7 +266,7 @@ class AlbumAdapter extends BaseAdapter {
             holder.gallery_count.setText(song.get(Function.KEY_COUNT));
 
             Glide.with(activity)
-                    .load(new File(song.get(Function.KEY_PATH))) // Uri of the picture
+                    .load(new File(song.get(Function.KEY_PATH)))
                     .into(holder.galleryImage);
 
 
