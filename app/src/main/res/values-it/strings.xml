@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Gallery Search</string>
+    <string name="edit_image_keywords">Modificare parole chiave della immagine</string>
+    <string name="keywords_to_find_image">Parole chiave per trovare l’immagine</string>
+    <string name="replace_or_add_keywords">Desidera sostituire o aggiungere parole chiave?</string>
+    <string name="replace">Substituir</string>
+    <string name="add">Aggiungere</string>
+    <string name="cancel">Annullare</string>
+    <string name="save">Salvare</string>
+    <string name="keywords_hint">Esempio: gatto, meme, post</string>
+    <string name="search_image_edt">Inserisci la parola da cercare</string>
+    <string name="share_image">Postare immagine</string>
+    <string name="data_saved">Dati salvati</string>
+    <string name="accept_permissions">Devi accettare tutte le autorizzazioni affinché l\'app funzioni correttamente!</string>
+    <string name="nothing_found">Nulla trovato</string>
+</resources>
